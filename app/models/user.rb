@@ -3,7 +3,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
+
+  has_many :notes, dependent: :destroy
+  # ノートを複数持っている
+  has_many :records, dependent: :destroy
+  # 学習記録を複数持っている
+  has_many :comments, dependent: :destroy
+  # コメントを複数できる
+
   GUEST_USER_EMAIL = "guest@example.com"
 
   def self.guest

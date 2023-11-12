@@ -1,2 +1,65 @@
-<h1>User::Users#show</h1>
+<h1>ユーザーページ</h1>
 <p>Find me in app/views/user/users/show.html.erb</p>
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th><%= @user.name %></th>
+  </tr>
+  <tr>
+    <th>Profile</th>
+    <th><%= @user.introduction %></th>
+  </tr>
+
+</table>
+
+<table class="table">
+  <thead>
+   <tr>
+     <th>Myノート</th>
+     <th colspan="2"></th>
+   </tr>
+  </thead>
+  <tboby>
+   <!--@noteにデータがあるか確認-->
+   <% if @note.present? %> 
+    <% @note.each do |list| %>
+     <!--ノートがあれば表示-->
+     <tr>
+       <td>作成日<%= list.created_at.strftime('%Y/%m/%d') %></td>
+       <td>#<%= list.category %></td>
+       <td><%= link_to list.title, note_path(list.id) %></td>
+     </tr>
+    <%end%>
+   <% else %>
+     <!--ノートがなければ下記を表示-->
+     <td>ノートがありません</td>
+   <% end %>
+   </tboby>
+ </table>
+ 
+ <table class="table">
+  <thead>
+   <tr>
+     <th>学習記録</th>
+     <th colspan="2"></th>
+   </tr>
+  </thead>
+  <tboby>
+   <% if @record.present? %> 
+    <% @record.each do |list| %>
+      <tr>
+        <% if @user == current_user %>
+         <td><%= link_to list.learning_day.strftime('%Y/%m/%d'), record_path(list.id) %></td>
+        <% else %>
+         <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
+        <% end %>
+        <td>学習時間：<%= list.study_time %>時間</td>
+        <td><%= list.comment %></td>
+       </tr>
+    <%end%>
+   <% else %>
+     <td>学習記録がありません</td>
+   <% end %>
+   </tboby>
+ </table>

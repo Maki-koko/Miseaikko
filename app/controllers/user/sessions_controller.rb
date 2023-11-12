@@ -8,7 +8,7 @@ before_action :user_state, only: [:create]
   def guest_sign_in
     user = User.guest
     sign_in user
-    redirect_to users_my_page_path, notice: "ゲストユーザーでログインしました。"
+    redirect_to user_path(user), notice: "ゲストユーザーでログインしました。"
   end
 
   # GET /resource/sign_in

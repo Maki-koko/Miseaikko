@@ -27,22 +27,23 @@ Rails.application.routes.draw do
   end
 
   scope module: :user do
-    resources :records, only: [:new, :create, :destroy]
+    resources :records, only: [:new, :create, :show, :destroy]
   end
   
   scope module: :user do
-    resources :comments, only: [:create, :destroy]
+
   end
 
   scope module: :user do
-    resources :notes
+    resources :notes do
+      resources :comments, only: [:create, :destroy]
+    end
   end
 
   scope module: :user do
-    get "users/my_page" => "users#show"
     get 'users/quit' => "users#quit"
     patch 'users/withdraw' => 'users#withdraw'
-    resources :users, only: [:edit, :update]
+    resources :users, only: [:show, :edit, :update]
   end
 
   scope module: :user do

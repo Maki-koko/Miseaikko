@@ -7,17 +7,15 @@
     <%= csp_meta_tag %>
 
     <script src="https://kit.fontawesome.com/01af5f0a0e.js" crossorigin="anonymous"></script>
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #00552e;">
+      <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00552e;">
         <div class="container">
-          <div class="d-flex">
-            <a class="navbar-brand" href="/"><%= image_tag 'no_image.jpg', :size =>'100x100' %></a>
-          </div>
+          <a class="navbar-brand" href="/"><%= image_tag 'Miseaikko_long.png', :size =>'200x100' %></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -25,7 +23,7 @@
             <ul class="navbar-nav ml-auto">
               <% if user_signed_in? %>
                 <li class="nav-item">
-                  <%= link_to 'マイページ', users_my_page_path, class: 'nav-link text-light m-2' %>
+                  <%= link_to 'マイページ', user_path(current_user), class: 'nav-link text-light m-2' %>
                 </li>
                 
                 <li class="nav-item">

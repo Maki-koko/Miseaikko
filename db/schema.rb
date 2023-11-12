@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_11_022009) do
+ActiveRecord::Schema.define(version: 2023_11_12_092507) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 2023_11_11_022009) do
     t.integer "record_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -64,10 +63,11 @@ ActiveRecord::Schema.define(version: 2023_11_11_022009) do
 
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "text", null: false
+    t.text "text", null: false
     t.boolean "hidden", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "note_id"
   end
 
   create_table "note_favorites", force: :cascade do |t|
@@ -79,10 +79,11 @@ ActiveRecord::Schema.define(version: 2023_11_11_022009) do
 
   create_table "notes", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "title", null: false
+    t.string "title", null: false
     t.boolean "hidden", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "category"
   end
 
   create_table "record_favorites", force: :cascade do |t|
@@ -94,8 +95,16 @@ ActiveRecord::Schema.define(version: 2023_11_11_022009) do
 
   create_table "records", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "text", null: false
+    t.boolean "status", default: false, null: false
+    t.date "learning_day", null: false
+    t.integer "study_time", null: false
+    t.string "comment", null: false
     t.boolean "hidden", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "reports", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
