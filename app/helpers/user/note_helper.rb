@@ -1,0 +1,2 @@
+module User::NoteHelper
+end

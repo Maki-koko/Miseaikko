@@ -1,0 +1,18 @@
+ <table class="table">
+  <thead>
+   <tr>
+     <th>学習記録</th>
+     <th colspan="2"></th>
+   </tr>
+  </thead>
+  <tboby>
+    <tr>
+      <td><%= @record.learning_day %></td>
+      <td>学習時間：<%= @record.study_time %>時間</td>
+      <td><%= @record.comment %></td>
+      <% if @record.user == current_user %>
+      <td><%= link_to "削除", record_path(@record.id), class:"btn btn-sm btn-danger", method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+      <% end %>
+    </tr>
+   </tboby>
+ </table>

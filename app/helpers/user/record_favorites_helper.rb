@@ -1,0 +1,2 @@
+module User::RecordFavoritesHelper
+end

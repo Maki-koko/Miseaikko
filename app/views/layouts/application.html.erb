@@ -6,11 +6,97 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <script src="https://kit.fontawesome.com/01af5f0a0e.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00552e;">
+        <div class="container">
+          <a class="navbar-brand" href="/"><%= image_tag 'Miseaikko_long.png', :size =>'200x100' %></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+              <% if user_signed_in? %>
+                <li class="nav-item">
+                  <%= link_to 'マイページ', user_path(current_user), class: 'nav-link text-light m-2' %>
+                </li>
+                
+                <li class="nav-item">
+                  <%= link_to "みんなのノート", notes_path, class: 'nav-link text-light m-2' %>
+                </li>
+
+                <li class="nav-item">
+                  <%= link_to "ノート作成", new_note_path, class: 'nav-link text-light m-2' %>
+                </li>
+
+                <li class="nav-item">
+                  <%= link_to "学習を記録", new_record_path, class: 'nav-link text-light m-2' %>
+                </li>
+
+                <li class="nav-item">
+                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-light m-2' %>
+                </li>
+
+              <% elsif admin_signed_in? %>
+                <li class="nav-item">
+                  <%= link_to "会員一覧", admin_users_path, class: 'nav-link text-light m-2' %>
+                </li>
+                
+                <li class="nav-item">
+                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-light m-2' %>
+                </li>
+
+              <% else %>
+
+                <li class="nav-item ">
+                  <%= link_to "ルール", role_path, class: 'nav-link text-light m-2' %>
+                </li>
+                
+                <li class="nav-item">
+                  <%= link_to "ノートを見に行く", notes_path, class: 'nav-link text-light m-2' %>
+                </li>
+                
+                <li class="nav-item">
+                  <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-light m-2' %>
+                </li>
+                
+                <li class="nav-item">
+                  <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-light m-2' %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    
+    <main>
+      <div class="d-flex justify-content-center mt-3">
+        <% if notice %>
+    　　    <p><%= notice %></p>
+        <% end %>
+        <% if alert %>
+          <p><%= alert %></p>
+        <% end %>
+      </div>
+      
+      <%= yield %>
+    </main>
+    
+    <footer>
+      <div class="container">
+        	<div class='row'>
+          	<div class='mx-auto my-2'>
+          		Miseaikko
+          	</div>
+          </div>
+      </div>
+    </footer>
+
   </body>
 </html>
