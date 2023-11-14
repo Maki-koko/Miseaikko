@@ -1,12 +1,22 @@
 <%= form_with(model: note, local: true) do |form| %>
   <div class="field">
     <%= form.label :タイトル %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: 'form-control' %>
   </div>
   <div class="field">
     <%= form.label :タグ %>
-    <%= form.text_field :category %>
+    (複数登録する場合は","で区切る)
+    <%= form.text_field :name,value: tags, class: 'form-control' %>
   </div>
+   <div>
+     <%= form.label :status, "公開", value: true %>
+     <%= form.radio_button :status, 'true' %>
+   </div>
+   <div>
+     <%= form.label :status, "非公開", value: false %>
+     <%= form.radio_button :status,'false' %>
+   </div>
+  
   <div class="field">
     <%= form.rich_text_area :content %>
     <%= form.submit :作成, class: 'btn btn-success' %>

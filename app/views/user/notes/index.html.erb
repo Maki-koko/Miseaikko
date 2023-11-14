@@ -1,19 +1,20 @@
 <h1>みんなのノート</h1>
 
 <table class="table">
-  <thead>
-   <tr>
-     <th>ノート一覧</th>
-     <th colspan="2"></th>
-   </tr>
-  </thead>
   <tboby>
-   <% @note.each do |list| %>
-    <tr>
-      <td><%= list.created_at.strftime('%Y/%m/%d') %></td>
-      <td><%= list.user.name %></td>
-      <td><%= link_to list.title, note_path(list.id) %></td>
-    </tr>
+   <% if @note.present? %> 
+    <% @note.each do |list| %>
+     <tr>
+       <td><%= list.created_at.strftime('%Y/%m/%d') %></td>
+       <td><%= list.user.name %></td>
+       <td><%= link_to list.title, note_path(list.id) %></td>
+       <th><i class="fa-solid fa-heart"></i><%= list.note_favorites.count %></th>
+     </tr>
+    <%end%>
+   <% else %>
+     <!--ノートがなければ下記を表示-->
+     <td>ノートがありません</td>
    <%end%>
    </tboby>
  </table>
+ #<%= link_to tag.name,search_tag_path(tag_id: tag.id) %>

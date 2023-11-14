@@ -1,17 +1,26 @@
 <h1>ノート</h1>
-<p>Find me in app/views/user/note/show.html.erb</p>
 
 <div>
-タイトル：<%= link_to @note.title %>
+タイトル：<%= @note.title %>
 </div>
 
 <div>
-＃<%= @note.category %>
+  <% @tags.each do |tag| %>
+    #<%= link_to tag.name,search_tag_path(tag_id: tag.id) %>
+  <% end %>
 </div>
 
 <div>
   <%= link_to @note.user.name,user_path(@note.user_id) %>
 </div>
+
+<% if @note.user == current_user %>
+  <% if @note.status %>
+    <p>公開設定：<strong class="text-success">公開</strong></p>
+  <% else %>
+    <p>公開設定：<strong class="text-secondary">非公開</strong></p>    
+  <% end %>
+<% end %>
 
 <div class="text border">
 <%= @note.content %>
@@ -29,40 +38,39 @@
 
 <table>
   <thead>
-    <% case %>
-    <% when current_user %>
-      <th>
-        <% if @note.favorited_by?(current_user) %>
-          <%= link_to note_note_favorites_path(@note), method: :delete do %>
-            <i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %>
+    <% if user_signed_in? %>
+        <th>
+          <% if @note.favorited_by?(current_user) %>
+            <%= link_to note_note_favorites_path(@note), method: :delete do %>
+              <i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %>
+            <% end %>
+          <% else %>
+            <%= link_to note_note_favorites_path(@note), method: :post do %>
+              <i class="fa-regular fa-heart"></i><%= @note.note_favorites.count %>
+            <% end %>
           <% end %>
-        <% else %>
-          <%= link_to note_note_favorites_path(@note), method: :post do %>
-            <i class="fa-regular fa-heart"></i><%= @note.note_favorites.count %>
-          <% end %>
-        <% end %>
-      </th>
+        <th><i class="fa-solid fa-comment"></i> <%= @note.comments.count %></th>
+        </th>
+      <% else %>
+        <th><i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %></th>
+      <% end %>
       <th><i class="fa-solid fa-comment"></i> <%= @note.comments.count %></th>
-    <% else %>
-      <th></th>
-      <th></th>
-    <% end %>
   </thead>
-    <% @note.comments.each do |comment| %>
+  <% @note.comments.each do |comment| %>
   <tbody>
-      <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-      <td><%= comment.user.name %></td>
-      <td></td>
-      <td><%= comment.text %></td>
-      <td>
-        <% if comment.user == current_user %>
-          <%= link_to note_comment_path(comment.note, comment), method: :delete, class:"btn btn-sm btn-danger" do %>
-          <i class="fa-regular fa-trash-can"> 削除</i>
-          <% end %>
+    <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+    <td><%= comment.user.name %></td>
+    <td></td>
+    <td><%= comment.text %></td>
+    <td>
+      <% if comment.user == current_user %>
+        <%= link_to note_comment_path(comment.note, comment), method: :delete, class:"btn btn-sm btn-danger" do %>
+        <i class="fa-regular fa-trash-can"> 削除</i>
         <% end %>
-      </td>
+      <% end %>
+    </td>
   </tbody>
-    <% end %>
+  <% end %>
 </table>
 
 <% if user_signed_in? %>

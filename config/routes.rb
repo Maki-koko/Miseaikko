@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'tag/search'
   root to: 'user/homes#top'
     get "/role" => "user/homes#role"
 
@@ -8,7 +9,7 @@ Rails.application.routes.draw do
     sessions: 'user/sessions'
   }
 
-  devise_for :admins, controllers: {
+  devise_for :admin, skip: [:registrations, :passwords] , controllers: {
     sessions: "admin/sessions"
   }
 
@@ -18,8 +19,14 @@ Rails.application.routes.draw do
     post "users/guest_sign_in", to: "user/sessions#guest_sign_in"
   end
 
+
+
   scope module: :user do
-    resources :records, only: [:new, :create, :show, :destroy] do
+    get "search_tag" => "notes#search_tag"
+  end
+
+  scope module: :user do
+    resources :records, only: [:new, :create, :update, :destroy] do
      resource :record_favorites, only: [:create, :destroy]
     end
   end
