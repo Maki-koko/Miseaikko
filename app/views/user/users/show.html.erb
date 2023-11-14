@@ -1,22 +1,64 @@
-<h1>ユーザーページ</h1>
-<p>Find me in app/views/user/users/show.html.erb</p>
+<h1>マイページ</h1>
 
 <table class="table">
   <tr>
-    <th>Name</th>
+    <!--<th>Name</th>-->
     <th><%= @user.name %></th>
   </tr>
   <tr>
-    <th>Profile</th>
-    <th><%= @user.introduction %></th>
+    <!--<th>Profile</th>-->
+    <td><%= @user.introduction %></td>
   </tr>
-
-</table>
+ <th>フォロー中</th>
+   <td>
+    <%= link_to follows_user_path(@user) do %>
+      <h6><%= @user.followers.count %></h6>
+    <% end %> 
+   </td>
+   <tr>  
+     <th>フォロワー</th>
+     <td>  
+       <%= link_to followers_user_path(@user) do %>
+         <h6><%= @user.followeds.count %></h6>
+       <% end %>
+     </td>
+   </tr> 
+   <tr>
+   <% unless @user.guest_user? %>
+    <td>
+     <%= link_to edit_user_registration_path, class:"btn btn-outline-secondary" do %>
+      <i class="fa-solid fa-user-gear">設定</i>
+     <% end %>
+    </td>
+   <% end %>
+   </tr>
+   <td>
+   <% if current_user != @user %>
+       <% if current_user.following?(@user) %>
+         <%= link_to "フォローをやめる", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
+       <% else %>
+         <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
+       <% end %>
+     <% end %>
+   </td>
+ </table>
 
 <table class="table">
   <thead>
    <tr>
      <th>Myノート</th>
+      <% if user_signed_in? %>
+        <% if current_user == @user %>
+          <th>
+            <%= link_to new_note_path do %><span class="fa-solid fa-plus"></span>
+            <% end %>
+          </th>
+        <% else %>
+          <th></th>
+        <% end %>
+      <% else %>
+        <th></th>
+      <% end %>
      <th colspan="2"></th>
    </tr>
   </thead>
@@ -41,25 +83,84 @@
  <table class="table">
   <thead>
    <tr>
-     <th>学習記録</th>
+    <th>いいねしたノート</th>
      <th colspan="2"></th>
    </tr>
   </thead>
+   <tboby>
+   <!--@favoiteにデータがあるか確認-->
+   <% if @favoite.present? %> 
+    <% @favoite.each do |list| %>
+     <!--ノートがあれば表示-->
+     <tr>
+       <td>#<%= list.note.category %></td>
+       <td><%= link_to list.note.title, note_path(list.note.id) %></td>
+     </tr>
+    <%end%>
+   <% else %>
+     <!--ノートがなければ下記を表示-->
+     <td>ノートがありません</td>
+   <% end %>
+   </tboby>
+
+
+ </table>
+ 
+ <table class="table">
+  <thead>
+   <tr>
+     <th>学習記録</th>
+      <% if user_signed_in? %>
+        <% if current_user == @user %>
+         <th><%= link_to new_record_path do %>
+          <span class="fa-solid fa-plus"></span>
+             <% end %>
+         <th>
+        <% else %>
+          <th></th>
+        <% end %>
+      <% else %>
+        <th></th>
+      <% end %>
+     <th colspan="2"></th>
+   </tr>
+  </thead>
+
   <tboby>
+   <tr>
    <% if @record.present? %> 
     <% @record.each do |list| %>
-      <tr>
-        <% if @user == current_user %>
-         <td><%= link_to list.learning_day.strftime('%Y/%m/%d'), record_path(list.id) %></td>
-        <% else %>
-         <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
+     <% if @user == current_user %>
+      <td><%= link_to list.learning_day.strftime('%Y/%m/%d'), record_path(list.id) %></td>
+     <% else %>
+      <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
+     <% end %>
+     <td>学習時間：<%= list.study_time %>時間</td>
+     <td><%= list.comment %></td>
+     <% if list.favorited_by?(current_user) %>
+      <td>
+        <%= link_to record_record_favorites_path(list.id), method: :delete do %>
+        <i class="fa-solid fa-heart"></i><%= list.record_favorites.count %>
         <% end %>
-        <td>学習時間：<%= list.study_time %>時間</td>
-        <td><%= list.comment %></td>
-       </tr>
+      </td>
+     <% else %>
+       <td>
+         <%= link_to record_record_favorites_path(list.id), method: :post do %>
+         <i class="fa-regular fa-heart"></i><%= list.record_favorites.count %>
+         <% end %>
+       </td>
+     <% end %>
+     <% if list.user == current_user %>
+     <td>
+      <%= link_to record_path(list.id), class:"btn btn-danger text-white", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+      <i class="fa-regular fa-trash-can"></i>
+      <% end %>
+     </td>
+     <% end %>
     <%end%>
    <% else %>
      <td>学習記録がありません</td>
    <% end %>
+   </tr>
    </tboby>
  </table>

@@ -3,6 +3,9 @@
 class User::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  before_action :ensure_guest_user, only: [:edit]
+
+
 
   # GET /resource/sign_up
   # def new
@@ -15,14 +18,14 @@ class User::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    super
+  end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
 
   # DELETE /resource
   # def destroy
@@ -59,4 +62,21 @@ class User::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  
+protected
+
+  def ensure_guest_user
+    if @user.guest_user?
+      redirect_to user_path(@user) , notice: "ゲストユーザーはプロフィール編集画面へ遷移できません。"
+    end
+  end
+  
+  def update_resource(resource, params)
+    resource.update_without_password(params)
+  end
+  
+  def after_update_path_for(resource)
+    # 自分で設定した「マイページ」へのパス
+    user_path(@user)
+  end
 end

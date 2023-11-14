@@ -1,0 +1,23 @@
+<h2>フォロー中</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @users.present? %> 
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.name, user_path(user) %></td>
+          <td>
+            <%= user.introduction %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+     <td>まだフォローをしていません。</td>
+    <% end %>
+    </tbody>
+  </table> 

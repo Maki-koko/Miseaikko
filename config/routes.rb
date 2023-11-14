@@ -19,23 +19,14 @@ Rails.application.routes.draw do
   end
 
   scope module: :user do
-    resources :note_favorites, only: [:create, :destroy]
-  end
-  
-  scope module: :user do
-    resources :record_favorites, only: [:create, :destroy]
-  end
-
-  scope module: :user do
-    resources :records, only: [:new, :create, :show, :destroy]
-  end
-  
-  scope module: :user do
-
+    resources :records, only: [:new, :create, :show, :destroy] do
+     resource :record_favorites, only: [:create, :destroy]
+    end
   end
 
   scope module: :user do
     resources :notes do
+      resource :note_favorites, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]
     end
   end
@@ -43,7 +34,12 @@ Rails.application.routes.draw do
   scope module: :user do
     get 'users/quit' => "users#quit"
     patch 'users/withdraw' => 'users#withdraw'
-    resources :users, only: [:show, :edit, :update]
+    resources :users, only: [:show, :edit, :update] do
+      member do
+        get :follows, :followers
+      end
+        resource :relationships, only: [:create, :destroy]
+    end
   end
 
   scope module: :user do

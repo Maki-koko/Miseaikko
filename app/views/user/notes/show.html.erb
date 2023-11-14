@@ -10,9 +10,7 @@
 </div>
 
 <div>
-<% unless @note.user_id == current_user.id %>
   <%= link_to @note.user.name,user_path(@note.user_id) %>
-<% end %>
 </div>
 
 <div class="text border">
@@ -21,14 +19,34 @@
 
 <div>
 <% if @note.user == current_user %>
-  <%= link_to "編集", edit_note_path(@note.id), class:"btn btn-sm btn-success" %> |
-  <%= link_to "削除", note_path(@note.id), class:"btn btn-sm btn-danger", method: :delete, "data-confirm" => "本当に削除しますか？" %>
+  <%= link_to edit_note_path(@note.id), class:"btn btn-sm btn-success" do %>
+  <i class="fa-regular fa-pen-to-square"> 編集</i>  <% end %>|
+  <%= link_to note_path(@note.id), class:"btn btn-sm btn-danger text-light", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+  <i class="fa-regular fa-trash-can"> 削除</i>
+  <% end %>
 <% end %>
 </div>
 
 <table>
   <thead>
-  <th>コメント数：<%= @note.comments.count %></th>
+    <% case %>
+    <% when current_user %>
+      <th>
+        <% if @note.favorited_by?(current_user) %>
+          <%= link_to note_note_favorites_path(@note), method: :delete do %>
+            <i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %>
+          <% end %>
+        <% else %>
+          <%= link_to note_note_favorites_path(@note), method: :post do %>
+            <i class="fa-regular fa-heart"></i><%= @note.note_favorites.count %>
+          <% end %>
+        <% end %>
+      </th>
+      <th><i class="fa-solid fa-comment"></i> <%= @note.comments.count %></th>
+    <% else %>
+      <th></th>
+      <th></th>
+    <% end %>
   </thead>
     <% @note.comments.each do |comment| %>
   <tbody>
@@ -38,16 +56,20 @@
       <td><%= comment.text %></td>
       <td>
         <% if comment.user == current_user %>
-            <%= link_to "削除", note_comment_path(comment.note, comment), method: :delete %>
+          <%= link_to note_comment_path(comment.note, comment), method: :delete, class:"btn btn-sm btn-danger" do %>
+          <i class="fa-regular fa-trash-can"> 削除</i>
           <% end %>
+        <% end %>
       </td>
   </tbody>
     <% end %>
 </table>
 
-<div>
-  <%= form_with model: [@note, @comment] do |f| %>
-    <%= f.text_area :text, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信" %>
-  <% end %>
-</div>
+<% if user_signed_in? %>
+  <div>
+    <%= form_with model: [@note, @comment] do |f| %>
+      <%= f.text_area :text, rows: '7', placeholder: "コメント" %>
+      <%= f.submit "送信", class:"btn btn-sm btn-secondary" %>
+    <% end %>
+  </div>
+<% end %>

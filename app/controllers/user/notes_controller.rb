@@ -1,6 +1,6 @@
 class User::NotesController < ApplicationController
   def index
-    @note = Note.includes(:user)
+    @note = Note.includes(:user).order(created_at: :desc)
   end
   
   def new

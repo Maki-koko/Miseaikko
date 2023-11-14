@@ -11,4 +11,11 @@ class Note < ApplicationRecord
   belongs_to :user
   # ノートが繋がっているモデルはuserのみ
 
+  has_many :note_favorites, dependent: :destroy
+  # コメントを複数できる
+
+  def favorited_by?(user)
+    return false if user.nil?
+    note_favorites.exists?(user_id: user.id)
+  end
 end

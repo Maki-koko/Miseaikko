@@ -1,2 +1,34 @@
-<h1>User::Homes#top</h1>
-<p>Find me in app/views/user/homes/top.html.erb</p>
+<div>
+<h2>Miseaikko!はオンライン上で「ノート見せて！」と言い合えるサイトです</h2>
+
+プログラミング学習は孤独になりやすく、調べた情報の整理も大変。</br>
+学生時代にあった、「ノート見せて！」と気軽に言えるような環境があればと思い、立ち上げました。</br>
+ここでは自分の為のノート作りや学習時間の記録だけでなく、みんなのノートを見に行ったり、</br>
+学習者同士でささやかな応援ができます。
+
+みんなとがんばり合いたい人も。</br>
+自分とゆっくり向き合いたい人も。</br>
+<h4>みんなあつまれ！</h4>
+</div>
+
+<div>
+  <table>
+    <thead>
+     <tr>
+       <th>最新のノート</th>
+       <th colspan="2"></th>
+     </tr>
+    </thead>
+    <tboby>
+     <% @note.each do |list| %>
+      <tr>
+        <td><%= list.user.name %></td>
+        <td>#<%= list.category %></td>
+        <td><%= link_to list.title, note_path(list.id) %></td>
+      </tr>
+     <%end%>
+     </tboby>
+  </table>
+          <%= link_to "他のノートも見に行く＞＞", notes_path, class: "link" %>
+
+</div>
