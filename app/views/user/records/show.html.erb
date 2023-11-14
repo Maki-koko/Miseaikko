@@ -11,7 +11,10 @@
       <td>学習時間：<%= @record.study_time %>時間</td>
       <td><%= @record.comment %></td>
       <% if @record.user == current_user %>
-      <td><%= link_to "削除", record_path(@record.id), class:"btn btn-sm btn-danger", method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+      <td><%= link_to record_path(@record.id), class:"btn btn-sm btn-danger text-light", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+          <i class="fa-regular fa-trash-can"></i>
+          <% end %>
+      </td>
       <% end %>
     </tr>
    </tboby>
