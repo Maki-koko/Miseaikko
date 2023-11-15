@@ -16,8 +16,14 @@ class User::RecordsController < ApplicationController
   end
   
 
-  def show
-    @record = Record.find(params[:id])
+  def update
+    @user = current_user
+    @record = @user.records
+    if @record.update_all(status: params[:status])
+      redirect_to user_path(@user), notice: "公開設定を変更しました"
+    else
+      redirect_to user_path(@user), notice: "変更できませんでした"
+    end
   end
 
   def destroy
@@ -35,7 +41,7 @@ class User::RecordsController < ApplicationController
   private
 
   def record_params
-    params.require(:record).permit(:user_id, :learning_day, :study_time, :comment)
+    params.require(:record).permit(:user_id, :learning_day, :study_time, :comment, :status)
   end
   
 end

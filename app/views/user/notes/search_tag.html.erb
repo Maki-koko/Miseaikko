@@ -1,0 +1,17 @@
+<h1>タグ検索結果</h1>
+
+<table class="table">
+  <thead>
+    <th>#<%=@tag.name%>の投稿一覧</th>
+  </thead>
+<tboby>
+<% @notes.each do |list| %>
+<tr>
+<td><%= list.created_at.strftime('%Y/%m/%d') %></td>
+<td><%= list.user.name %></td>
+<td><%= link_to list.title, note_path(list.id) %></td>
+</tr>
+<%end%>
+</tboby>
+</table>
+
