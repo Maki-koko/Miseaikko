@@ -1,0 +1,46 @@
+<h2>"<%= @user.name %>"の詳細</h2>
+
+<%= form_with model: @user, url: admin_user_path, method: :patch do |f| %>
+  <!--%= render "user/shared/error_messages", resource: resource %>-->
+
+<!--名前・プロフィール欄は会員のみ変更できる方が良い？  -->
+  <div class="form-group">
+    <p class="text">Name</p>
+    <%= @user.name %>
+  </div>
+
+  <div class="form-group">
+  <p class="text">プロフィール</p>
+  <%= @user.introduction %>
+  </div>
+
+  <div class="field">
+    <p class="text">Email</p>
+    <%= @user.email %>
+  </div>
+  
+  <div>
+    <% if @user.is_active %>
+      <p class="text">会員ステータス：<strong class="text-success">有効</strong></p>
+    <% else %>
+      <p class="text">会員ステータス：<strong class="text-secondary">退会</strong></p>    
+    <% end %>
+    <td>
+      <%= f.radio_button :is_active, :true %>
+      <%= f.label :is_active, "有効", { value: :true }  %>
+
+      <%= f.radio_button :is_active, :false %>
+      <%= f.label :is_active, "退会", { value: :false } %>
+    </td>
+  </div>
+  <div>
+    <p class="text">備考欄</p>
+    <%= f.text_area :remarks, class:"form-control rounded" %>
+    </td>
+  </div>
+  </div>
+  <div class="form-group">
+  <%= f.submit "変更を保存",class:"btn btn-sm btn-success" %>
+  <%= link_to "保存せず戻る", edit_admin_user_path, class:"btn btn-sm btn-secondary" %>
+<% end %>
+  </div>

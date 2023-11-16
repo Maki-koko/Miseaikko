@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, except: [:top,:role,:show], unless: :admin_url
   before_action :authenticate_admin!, if: :admin_url 
   before_action :configure_permitted_parameters, if: :devise_controller?
-
+  before_action :search
   def admin_url
   request.fullpath.include?("/admin")
   end
@@ -20,12 +20,21 @@ class ApplicationController < ActionController::Base
     root_path
   end
   
-  helper_method :logged_in?
-  # ユーザーがログインしているかどうかを判定するためのメソッド
-  def logged_in?
-    session[:user_id].present?
+  # helper_method :logged_in?
+  # # ユーザーがログインしているかどうかを判定するためのメソッド
+  # def logged_in?
+  #   session[:user_id].present?
+  # end
+  # # ログインしているかによる条件分岐に使用中
+
+  def search
+    @q = Note.ransack(params[:q])
+    @note = @q.result(distinct: true)
+    #ここにページネーションなどを入れられる
+    @result = params[:q]&.values&.reject(&:blank?)
+    # params[:q] から空でない値のみを取り出し@result に代入
+    # 取り出す値がない場合→nilを返し、.valuesや.reject(&:blank?) を実行する
   end
-  # ログインしているかによる条件分岐に使用中
 
   protected
 

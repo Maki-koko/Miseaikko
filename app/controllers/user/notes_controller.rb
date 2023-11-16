@@ -7,11 +7,12 @@ class User::NotesController < ApplicationController
   
   def new
     @note = Note.new
+    @tags = ""
   end
 
   def create
     @note = current_user.notes.new(note_params)
-      tags = params[:note][:tag_id].split(',') # [:tag_id]を取得、splitで,を区切りとする
+      tags = params[:note][:name].split(',') # [:tag_id]を取得、splitで,を区切りに設定
     @note.user_id = current_user.id
     if @note.save
       @note.save_tags(tags)
@@ -66,7 +67,7 @@ class User::NotesController < ApplicationController
       #検索されたタグを受け取る
     @tag = Tag.find(params[:tag_id])
       #検索されたタグに紐づく投稿を表示
-    @notes = @tag.notes.includes(:user).where(users: { is_active: true }).share.order(created_at: :desc)
+    @notes = @tag.notes
   end
   
   private

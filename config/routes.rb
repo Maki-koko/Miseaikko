@@ -19,10 +19,9 @@ Rails.application.routes.draw do
     post "users/guest_sign_in", to: "user/sessions#guest_sign_in"
   end
 
-
-
   scope module: :user do
     get "search_tag" => "notes#search_tag"
+    get "search" => "searches#search"
   end
 
   scope module: :user do
@@ -58,32 +57,27 @@ Rails.application.routes.draw do
    get "/admin" => "admin/homes#top"  
    
   namespace :admin do
-    get 'records/edit'
-    get 'records/update'
+    get "search" => "searches#search"
+  end
+  
+  namespace :admin do
+    resources :records, only: [:index, :show, :edit, :update]
   end
 
   namespace :admin do
-    get 'comments/edit'
-    get 'comments/update'
+    resources :notes, only: [:show, :update]
   end
 
   namespace :admin do
-    get 'notes/edit'
-    get 'notes/update'
+    resources :comments, only: [:show, :update]
   end
 
   namespace :admin do
-    get 'users/index'
-    get 'users/show'
-    get 'users/edit'
-    get 'users/update'
+    resources :repots, only: [:index, :show, :edit, :update]
   end
 
   namespace :admin do
-    get 'reports/index'
-    get 'reports/show'
-    get 'reports/edit'
-    get 'reports/update'
+    resources :users, only: [:index, :edit, :update]
   end
 
 
