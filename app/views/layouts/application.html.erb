@@ -15,7 +15,9 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00552e;">
         <div class="container">
-          <a class="navbar-brand" href="/"><%= image_tag 'Miseaikko_long.png', :size =>'200x100' %></a>
+          <a class="navbar-brand" href="<%= current_admin ? admin_path : root_path %>">
+            <%= image_tag 'Miseaikko_long.png', size: '200x100' %>
+          </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>

@@ -1,9 +1,7 @@
-<h1>みんなのノート</h1>
-
+<h2><%= @q.title_cont %>の検索結果</h2>
 <div>
  <%= render 'layouts/search', note:@note %>
 </div>
-
 <div>
  <%= render 'layouts/note_index', note:@note %>
 </div>
