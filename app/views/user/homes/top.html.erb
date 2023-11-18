@@ -23,7 +23,6 @@
      <% @note.each do |list| %>
       <tr>
         <td><%= list.user.name %></td>
-        <td>#<%= list.category %></td>
         <td><%= link_to list.title, note_path(list.id) %></td>
       </tr>
      <%end%>

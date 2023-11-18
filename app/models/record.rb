@@ -5,9 +5,10 @@ class Record < ApplicationRecord
   
   has_many :record_favorites, dependent: :destroy
 
-  # scope :open, -> {where(status: true)}
-  # scope :close, -> {where(status: false)}
+  has_many :reports, as: :reportable, dependent: :destroy
+  # 通報内容を複数持っている
 
+ 
     # 公開・非公開機能
   scope :share, -> {where(status: true)}
   scope :secret, -> {where(status: false)}

@@ -7,10 +7,9 @@
     </tr>
   </thead>
   <tbody>
-  <% if @users.present? %> 
-    <% @users.each do |user| %>
+  <% if @user.present? %> 
+    <% @user.each do |user| %>
       <tr>
-        <td><%= user.name %></td>
         <td>
           <%= link_to user.name, user_path(user) %>
         </td>

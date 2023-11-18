@@ -29,7 +29,8 @@
 <div>
 <% if @note.user == current_user %>
   <%= link_to edit_note_path(@note.id), class:"btn btn-sm btn-success" do %>
-  <i class="fa-regular fa-pen-to-square"> 編集</i>  <% end %>|
+  <i class="fa-regular fa-pen-to-square"> 編集</i>
+  <% end %>|
   <%= link_to note_path(@note.id), class:"btn btn-sm btn-danger text-light", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
   <i class="fa-regular fa-trash-can"> 削除</i>
   <% end %>
@@ -53,8 +54,8 @@
         </th>
       <% else %>
         <th><i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %></th>
-      <% end %>
       <th><i class="fa-solid fa-comment"></i> <%= @note.comments.count %></th>
+      <% end %>
   </thead>
   <% @note.comments.each do |comment| %>
   <tbody>
@@ -62,6 +63,7 @@
     <td><%= comment.user.name %></td>
     <td></td>
     <td><%= comment.text %></td>
+    <td><%= link_to "報告", new_report_path, class:"btn btn-sm btn-warning" %></td>
     <td>
       <% if comment.user == current_user %>
         <%= link_to note_comment_path(comment.note, comment), method: :delete, class:"btn btn-sm btn-danger" do %>
@@ -79,5 +81,8 @@
       <%= f.text_area :text, rows: '7', placeholder: "コメント" %>
       <%= f.submit "送信", class:"btn btn-sm btn-secondary" %>
     <% end %>
+  </div>
+  <div>
+    <%= link_to "報告", new_report_path, class:"btn btn-sm btn-warning" %>
   </div>
 <% end %>
