@@ -10,12 +10,14 @@ class Note < ApplicationRecord
   has_many :note_favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
 # コメントを複数できる
-  # has_many :reports, dependent: :destroy
+  has_many :reports, as: :reportable, dependent: :destroy
   # 通報内容を複数持っている
 
   belongs_to :user
   # ノートが繋がっているモデルはuserのみ
-    
+  
+  
+  
   # 公開・非公開機能
   scope :share, -> {where(status: true)}
   scope :secret, -> {where(status: false)}

@@ -1,12 +1,18 @@
 ja:
 
+  enums:
+    report:
+      type:
+        note: "ノート"
+        comment: "コメント"
+        record: "学習記録"
   activerecord:
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
         restrict_dependent_destroy:
-          has_one: "%{record}が存在しているので削除できません"
-          has_many: "%{record}が存在しているので削除できません"
+          has_one: "%{record}が存在している為、削除できません"
+          has_many: "%{record}が存在している為、削除できません"
   date:
     abbr_day_names:
     - 日

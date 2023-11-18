@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   end
 
   scope module: :user do
-    resources :reports, only: [:show, :edit, :destroy]
+    resources :reports, only: [:new, :create, :show, :edit]
   end
 
 

@@ -5,7 +5,8 @@ class CreateComments < ActiveRecord::Migration[6.1]
       t.integer :user_id, null: false
       t.text :text,    null: false
       t.boolean :hidden,  null: false, default: true
-
+      t.integer :note_id, null: false
+      t.integer :report_id
       t.timestamps
     end
   end

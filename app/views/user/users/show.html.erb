@@ -24,6 +24,19 @@
      </td>
    </tr> 
    <tr>
+    <td>
+     <% if user_signed_in? %>
+      <% if current_user != @user %>
+       <% if current_user.following?(@user) %>
+         <%= link_to "フォローをやめる", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
+       <% else %>
+         <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
+       <% end %>
+      <% end %>
+     <% end %>
+    </td>
+   </tr>
+   <tr>
    <% if @user.guest_user? %>
     <td></td>
    <% elsif @user=current_user  %>
@@ -36,20 +49,6 @@
     <td></td>
    <% end %>
    </tr>
-   <td>
-   <% if user_signed_in? %>
-    <% if current_user != @user %>
-     <% if current_user.following?(@user) %>
-       <%= link_to "フォローをやめる", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
-     <% else %>
-       <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
-     <% end %>
-    <% end %>
-   <% else %>
-    <td></td>
-   <% end %>
-
-   </td>
  </table>
 
 <table class="table">
@@ -80,7 +79,7 @@
        <td>作成日<%= list.created_at.strftime('%Y/%m/%d') %></td>
        <td><% if @user == current_user %>
             <% if list.status %>
-              <p><strong class="text-success">公開</strong></p>
+              <p><strong class="text-success">公開中</strong></p>
             <% else %>
               <p><strong class="text-secondary">非公開</strong></p>    
             <% end %>
@@ -128,30 +127,36 @@
   <thead>
    <tr>
      <th>学習記録</th>
-
       <% if user_signed_in? %>
-        <% if current_user == @user %>
-        <th>公開設定：<%= @record.first.status_japanese %></th>
-        <th>
-         <%= form_with(url: record_path, method: :patch) do |form| %>
-           <th><%= form.radio_button :status, true %>
-           <%= form.label :status, "公開" %></th>
-           <th><%= form.radio_button :status, false %>
-           <%= form.label :status, "非公開" %></th>
-           <th><%= form.submit "変更する", class:"btn btn-outline-warning" %></th>
-         <% end %>
-        </th>
+       <% unless current_user == @user %>
+         <th colspan="5"></th>
+       <% else %>
+        <% if @record.present? %> 
+         <th>公開設定：<%= @record.first.status_japanese %></th>
+         <th>
+          <%= form_with(url: record_path, method: :patch) do |form| %>
+            <th><%= form.radio_button :status, true %>
+            <%= form.label :status, "公開" %></th>
+            <th><%= form.radio_button :status, false %>
+            <%= form.label :status, "非公開" %></th>
+            <th><%= form.submit "変更する", class:"btn btn-outline-warning" %></th>
+          <% end %>
+         </th>
          <th><%= link_to new_record_path do %>
-          <span class="fa-solid fa-plus"></span>
+              <span class="fa-solid fa-plus"></span>
              <% end %>
          <th>
         <% else %>
-          <th colspan="5"></th>
+         <th></th>
+         <th><%= link_to new_record_path do %>
+              <span class="fa-solid fa-plus"></span>
+             <% end %>
+         <th>
         <% end %>
+       <% end %>
       <% else %>
-        <th colspan="5"></th>
+       <th colspan="5"></th>
       <% end %>
-     <th colspan=""></th>
    </tr>
   </thead>
 
@@ -160,7 +165,7 @@
     <% if @record.present? %> 
      <% @record.each do |list| %>
       <% if @user == current_user %>
-       <td><%= link_to list.learning_day.strftime('%Y/%m/%d'), record_path(list.id) %></td>
+       <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
       <% else %>
        <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
       <% end %>
@@ -182,6 +187,7 @@
            <% end %>
          </td>
        <% end %>
+         <td><%= link_to "不適切な投稿として報告", new_report_path, class:"btn btn-sm btn-warning" %></td>
       <% else %>
       <!--ログアウト時-->
         <td><i class="fa-solid fa-heart"></i><%= list.record_favorites.count %></td>
