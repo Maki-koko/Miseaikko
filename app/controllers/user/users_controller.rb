@@ -1,28 +1,22 @@
 class User::UsersController < ApplicationController
-
   before_action :set_user, only: [:note_favorites]
 
 
   def show
     @user = User.find(params[:id])
+    @favoite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc)
+    @following_users = @user.following_users
+    @follower_users = @user.follower_users
     if @user == current_user
       @notes = @user.notes.order(created_at: :desc)
       @tags = @notes.includes(:tags).pluck('tags.name').flatten.join(',')
       # 一括でタグを取得し、配列にしてjoinする
       # flattenメソッドは多次元配列を平坦化するために使用しています
       @record = @user.records.order(learning_day: :desc)
-      @favoite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc)
-      @following_users = @user.following_users
-      @follower_users = @user.follower_users
     else
       @notes = @user.notes.share.order(created_at: :desc)
       @tags = @notes.includes(:tags).pluck('tags.name').flatten.join(',')
-      # 一括でタグを取得し、配列にしてjoinする
-      # flattenメソッドは多次元配列を平坦化するために使用しています
       @record = @user.records.share.order(learning_day: :desc)
-      @favoite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc)
-      @following_users = @user.following_users
-      @follower_users = @user.follower_users
     end
   end
 

@@ -1,0 +1,25 @@
+<div>
+タイトル：<%= note.title %>
+</div>
+
+<div>
+  <% tags.each do |tag| %>
+    #<%= link_to tag.name,search_tag_path(tag_id: tag.id) %>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to note.user.name,user_path(note.user_id) %>
+</div>
+
+<% if note.user == current_user %>
+  <% if note.status %>
+    <p>公開設定：<strong class="text-success">公開</strong></p>
+  <% else %>
+    <p>公開設定：<strong class="text-secondary">非公開</strong></p>    
+  <% end %>
+<% end %>
+
+<div class="text border">
+<%= note.content %>
+</div>

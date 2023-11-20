@@ -1,0 +1,48 @@
+<table class="table">
+ <thead>
+  <tr>
+   <th>報告日</th>
+   <th>種別</th>
+   <th>対応状況</th>
+   <th>報告ID</th>
+  </tr>
+ </thead>
+ <tbody>
+    <% if data.present? %>
+      <% data.each do |list| %>
+        <tr>
+          <td><%= list.created_at.strftime('%Y/%m/%d %H:%M:%S') %></td>
+          <td>
+           <% case list.reportable_type %>
+            <% when 'Note' %>
+              <%= 'ノート' %>
+            <% when 'Comment' %>
+              <%= 'コメント' %>
+            <% when 'Record' %>
+              <%= '学習記録' %>
+           <% end %>
+           </td>
+          <td>
+           <% if list.report_status %>
+            <strong class="text-success">対応済</strong>
+           <% else %>
+            <strong class="text-danger">未対応</strong>
+           <% end %>
+          </td>
+          <% case list.reportable_type %>
+          <% when 'Note' %>
+            <td><%= link_to list.reportable_id, admin_note_path(list) %></td>
+          <% when 'Comment' %>
+            <td><%= link_to list.reportable_id, admin_comment_path(list) %></td>
+          <% when 'Record' %>
+            <td><%= link_to list.reportable_id, admin_record_path(list) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="3">報告がありません</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

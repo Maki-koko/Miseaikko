@@ -1,0 +1,11 @@
+
+<div>
+<%= form_with model: report, url: admin_report_path, method: :patch do |form| %>
+  <p class="text">備考欄</p>
+  <%= form.text_area :remarks, rows: '7', class:"form-control" %>
+  <p class="text">管理者対応状況</p>
+  <%= form.radio_button :report_status, true %><%= form.label :report_status, "対応済" %>
+  <%= form.radio_button :report_status, false %><%= form.label :report_status, "未対応" %>
+  <%= form.submit "変更する", class:"btn btn-sm btn-warning" %>
+<% end %>
+</div>

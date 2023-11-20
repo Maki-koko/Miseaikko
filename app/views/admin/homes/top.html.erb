@@ -1,8 +1,7 @@
-<h1>Admin::Homes#top</h1>
-<p>Find me in app/views/admin/homes/top.html.erb</p>
+<h1>管理者トップ</h1>
 
-<div>本日の報告件数</div>
+<div>未対応の報告件数</div>
 
-<div>ノート</div>
-<div>コメント</div>
-<div>学習記録</div>
+<div>ノート:<%= link_to @notes&.count, admin_notes_path %>件</div>
+<div>コメント:<%= link_to @comments&.count, admin_comments_path %>件</div>
+<div>学習記録:<%= link_to @records&.count, admin_records_path %>件</div>

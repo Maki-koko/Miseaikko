@@ -6,15 +6,18 @@ class User::RecordsController < ApplicationController
   def create
     @record = Record.new(record_params)
     @record.user_id = current_user.id
+    # 他のデータのstatusがtrueだったらtrueに設定
+    other_record = Record.where(user_id: current_user.id).last
+    @record.status = other_record&.status if other_record
     if @record.save
       flash[:notice] = "学習時間を記録しました"
       redirect_to user_path(@record.user_id)
     else
-    # エラーの場合は戻る
+      # エラーの場合は戻る
       render :new
     end
   end
-  
+
 
   def update
     @user = current_user

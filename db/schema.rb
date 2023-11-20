@@ -116,11 +116,11 @@ ActiveRecord::Schema.define(version: 2023_11_14_101418) do
 
   create_table "reports", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "reportable_type", null: false
+    t.string "reportable_type", null: false
     t.integer "reportable_id", null: false
-    t.text "text", null: false
+    t.text "text"
     t.boolean "report_status", default: false, null: false
-    t.text "remarks", null: false
+    t.text "remarks"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

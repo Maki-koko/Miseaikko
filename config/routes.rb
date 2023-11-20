@@ -61,19 +61,19 @@ Rails.application.routes.draw do
   end
   
   namespace :admin do
-    resources :records, only: [:index, :show, :edit, :update]
+    resources :records, only: [:index, :show, :update]
   end
 
   namespace :admin do
-    resources :notes, only: [:show, :update]
+    resources :notes, only: [:index, :show, :update]
   end
 
   namespace :admin do
-    resources :comments, only: [:show, :update]
+    resources :comments, only: [:index, :show, :update]
   end
 
   namespace :admin do
-    resources :repots, only: [:index, :show, :edit, :update]
+    resources :reports, only: [:index, :show, :update]
   end
 
   namespace :admin do

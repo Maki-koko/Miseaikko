@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_admin!, if: :admin_url 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :search
+  
   def admin_url
   request.fullpath.include?("/admin")
   end
@@ -35,6 +36,7 @@ class ApplicationController < ActionController::Base
     # params[:q] から空でない値のみを取り出し@result に代入
     # 取り出す値がない場合→nilを返し、.valuesや.reject(&:blank?) を実行する
   end
+
 
   protected
 

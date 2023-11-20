@@ -48,12 +48,13 @@
                 <li class="nav-item">
                   <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-light m-2' %>
                 </li>
-
               <% elsif admin_signed_in? %>
                 <li class="nav-item">
                   <%= link_to "会員一覧", admin_users_path, class: 'nav-link text-light m-2' %>
                 </li>
-                
+                <li class="nav-item">
+                  <%= link_to "不適切報告", admin_reports_path, class: 'nav-link text-light m-2' %>
+                </li>
                 <li class="nav-item">
                   <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-light m-2' %>
                 </li>
@@ -83,6 +84,7 @@
     </header>
     
     <main>
+      <div class="container">
       <div class="d-flex justify-content-center mt-3">
         <% if notice %>
     　　    <p><%= notice %></p>
@@ -93,6 +95,7 @@
       </div>
       
       <%= yield %>
+      </div>
     </main>
     
     <footer>

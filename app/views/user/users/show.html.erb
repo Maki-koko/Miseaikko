@@ -1,101 +1,102 @@
 <h1><%= @user.name %>さんのマイページ</h1>
 
 <table class="table">
-  <tr>
-    <!--<th>Name</th>-->
-    <th><%= @user.name %></th>
-  </tr>
-  <tr>
-    <!--<th>Profile</th>-->
-    <td><%= @user.introduction %></td>
-  </tr>
- <th>フォロー中</th>
+ <tr>
+   <th><%= @user.name %></th>
+ </tr>
+ <tr>
+   <td><%= @user.introduction %></td>
+ </tr>
+ <tr>
+   <th>フォロー中</th>
    <td>
-    <%= link_to follows_user_path(@user) do %>
-      <h6><%= @user.followers.count %></h6>
-    <% end %> 
+     <%= link_to follows_user_path(@user) do %>
+       <h6><%= @user.followers.count %></h6>
+     <% end %> 
    </td>
-   <tr>  
-     <th>フォロワー</th>
-     <td>  
-       <%= link_to followers_user_path(@user) do %>
-         <h6><%= @user.followeds.count %></h6>
-       <% end %>
-     </td>
-   </tr> 
-   <tr>
-    <td>
-     <% if user_signed_in? %>
-      <% if current_user != @user %>
-       <% if current_user.following?(@user) %>
-         <%= link_to "フォローをやめる", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
-       <% else %>
-         <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
-       <% end %>
-      <% end %>
+ </tr>
+ <tr>  
+   <th>フォロワー</th>
+   <td>  
+     <%= link_to followers_user_path(@user) do %>
+       <h6><%= @user.followeds.count %></h6>
      <% end %>
-    </td>
-   </tr>
-   <tr>
-   <% if @user.guest_user? %>
-    <td></td>
-   <% elsif @user=current_user  %>
-    <td>
-     <%= link_to edit_user_registration_path, class:"btn btn-outline-secondary" do %>
-      <i class="fa-solid fa-user-gear">設定</i>
+   </td>
+ </tr> 
+ <tr>
+  <td>
+   <% if user_signed_in? %>
+    <% if current_user != @user %>
+     <% if current_user.following?(@user) %>
+       <%= link_to "フォローをやめる", user_relationships_path(@user.id), method: :delete, class: "btn btn-danger" %>
+     <% else %>
+       <%= link_to "フォローする", user_relationships_path(@user.id), method: :post, class:"btn btn-success" %>
      <% end %>
-    </td>
-   <% else %>
-    <td></td>
+    <% end %>
    <% end %>
-   </tr>
- </table>
+  </td>
+ </tr>
+ <tr>
+  <% if @user.guest_user? %>
+   <td></td>
+  <% elsif @user=current_user  %>
+   <td>
+    <%= link_to edit_user_registration_path, class:"btn btn-outline-secondary" do %>
+     <i class="fa-solid fa-user-gear">設定</i>
+    <% end %>
+   </td>
+  <% else %>
+   <td></td>
+  <% end %>
+ </tr>
+</table>
+
 
 <table class="table">
-  <thead>
-   <tr>
-     <th>Myノート</th>
-      <% if user_signed_in? %>
-        <% if current_user == @user %>
-          <th>
-            <%= link_to new_note_path do %><span class="fa-solid fa-plus"></span>
-            <% end %>
-          </th>
-        <% else %>
-          <th></th>
-        <% end %>
+ <thead>
+  <tr>
+    <th>Myノート</th>
+    <% if user_signed_in? %>
+      <% if current_user = @user %>
+        <th>
+          <%= link_to new_note_path do %><span class="fa-solid fa-plus"></span><% end %>
+        </th>
       <% else %>
         <th></th>
       <% end %>
-     <th colspan="2"></th>
-   </tr>
-  </thead>
-  <tboby>
-   <!--@noteにデータがあるか確認-->
-   <% if @notes.present? %> 
+    <% else %>
+      <th></th>
+    <% end %>
+  </tr>
+ </thead>
+ <tbody>
+  <!--@noteにデータがあるか確認-->
+  <% if @notes.present? %> 
     <% @notes.each do |list| %>
-     <!--ノートがあれば表示-->
-     <tr>
-       <td>作成日<%= list.created_at.strftime('%Y/%m/%d') %></td>
-       <td><% if @user == current_user %>
-            <% if list.status %>
-              <p><strong class="text-success">公開中</strong></p>
-            <% else %>
-              <p><strong class="text-secondary">非公開</strong></p>    
-            <% end %>
-           <% end %>
+      <!--ノートがあれば表示-->
+      <tr>
+        <td>作成日<%= list.created_at.strftime('%Y/%m/%d') %></td>
+        <td><% if @user == current_user %>
+          <% if list.status %>
+            <p><strong class="text-success">公開中</strong></p>
+          <% else %>
+            <p><strong class="text-secondary">非公開</strong></p>
+          <% end %>
+        <% end %>
         </td>
-       <td>#<%= list.tags.pluck(:name).join(' #') %></td>
-       <td><%= link_to list.title, note_path(list.id) %></td>
-       <td><i class="fa-solid fa-heart"></i><%= list.note_favorites.count %></td>
-     </tr>
-    <%end%>
-   <% else %>
-     <!--ノートがなければ下記を表示-->
-     <td>ノートがありません</td>
-   <% end %>
-   </tboby>
- </table>
+        <td>#<%= list.tags.pluck(:name).join(' #') %></td>
+        <td><%= link_to list.title, note_path(list.id) %></td>
+        <td><i class="fa-solid fa-heart"></i><%= list.note_favorites.count %></td>
+      </tr>
+    <% end %>
+  <% else %>
+    <!--ノートがなければ下記を表示-->
+    <tr>
+      <td colspan="5">ノートがありません</td>
+    </tr>
+  <% end %>
+ </tbody>
+</table>
  
  <table class="table">
   <thead>
@@ -119,91 +120,69 @@
      <td>ノートがありません</td>
    <% end %>
    </tboby>
-
-
  </table>
  
  <table class="table">
   <thead>
-   <tr>
-     <th>学習記録</th>
-      <% if user_signed_in? %>
-       <% unless current_user == @user %>
-         <th colspan="5"></th>
-       <% else %>
-        <% if @record.present? %> 
-         <th>公開設定：<%= @record.first.status_japanese %></th>
-         <th>
-          <%= form_with(url: record_path, method: :patch) do |form| %>
-            <th><%= form.radio_button :status, true %>
-            <%= form.label :status, "公開" %></th>
-            <th><%= form.radio_button :status, false %>
-            <%= form.label :status, "非公開" %></th>
-            <th><%= form.submit "変更する", class:"btn btn-outline-warning" %></th>
-          <% end %>
-         </th>
-         <th><%= link_to new_record_path do %>
-              <span class="fa-solid fa-plus"></span>
-             <% end %>
-         <th>
-        <% else %>
-         <th></th>
-         <th><%= link_to new_record_path do %>
-              <span class="fa-solid fa-plus"></span>
-             <% end %>
-         <th>
-        <% end %>
-       <% end %>
+    <tr>
+      <th>学習記録</th>
+        <% if @user = current_user %>
+          <th>公開設定：<%= @record.first.status_japanese %></th>
+          <th>
+            <%= form_with(url: record_path, method: :patch) do |form| %>
+              <td><%= form.radio_button :status, true %><%= form.label :status, "公開" %></td>
+              <td><%= form.radio_button :status, false %><%= form.label :status, "非公開" %></td>
+              <td><%= form.submit "変更する", class: "btn btn-outline-warning" %></td>
+            <% end %>
+          </th>
+          <th><%= link_to new_record_path do %><span class="fa-solid fa-plus"></span><% end %></th>
       <% else %>
-       <th colspan="5"></th>
+        <th colspan="5"></th>
       <% end %>
-   </tr>
+    </tr>
   </thead>
-
-  <tboby>
-   <tr>
+  <tbody>
     <% if @record.present? %> 
-     <% @record.each do |list| %>
-      <% if @user == current_user %>
-       <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
-      <% else %>
-       <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
-      <% end %>
-      <td>学習時間：<%= list.study_time %>時間</td>
-      <td><%= list.comment %></td>
-      <!--↓いいねボタン表示-->
-      <% if user_signed_in? %>
-      <!--ユーザーがログインしていたら-->
-       <% if list.favorited_by?(current_user) %>
-        <td>
-          <%= link_to record_record_favorites_path(list.id), method: :delete do %>
-          <i class="fa-solid fa-heart"></i><%= list.record_favorites.count %>
+      <% @record.each do |list| %>
+        <tr>
+          <td><%= list.learning_day.strftime('%Y/%m/%d') %></td>
+          <td>学習時間：<%= list.study_time %>時間</td>
+          <td><%= list.comment %></td>
+          <!-- いいねボタン表示 -->
+          <% if user_signed_in? %>
+            <!-- ユーザーがログインしていたら -->
+            <% if list.favorited_by?(current_user) %>
+              <td>
+                <%= link_to record_record_favorites_path(list.id), method: :delete do %>
+                  <i class="fa-solid fa-heart"></i><%= list.record_favorites.count %>
+                <% end %>
+              </td>
+            <% else %>
+              <td>
+                <%= link_to record_record_favorites_path(list.id), method: :post do %>
+                  <i class="fa-regular fa-heart"></i><%= list.record_favorites.count %>
+                <% end %>
+              </td>
+            <% end %>
+            <td><%= link_to "報告", new_report_path(record_id: list.id), class: "btn btn-sm btn-warning" %></td>
+          <% else %>
+            <!-- ログアウト時 -->
+            <td><i class="fa-solid fa-heart"></i><%= list.record_favorites.count %></td>
           <% end %>
-        </td>
-       <% else %>
-         <td>
-           <%= link_to record_record_favorites_path(list.id), method: :post do %>
-           <i class="fa-regular fa-heart"></i><%= list.record_favorites.count %>
-           <% end %>
-         </td>
-       <% end %>
-         <td><%= link_to "不適切な投稿として報告", new_report_path, class:"btn btn-sm btn-warning" %></td>
-      <% else %>
-      <!--ログアウト時-->
-        <td><i class="fa-solid fa-heart"></i><%= list.record_favorites.count %></td>
+          <!-- 投稿の削除ボタン -->
+          <% if list.user == current_user %>
+            <td>
+              <%= link_to record_path(list.id), class: "btn btn-danger text-white", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+                <i class="fa-regular fa-trash-can"></i>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
       <% end %>
-      <!--↓投稿の削除ボタン-->
-      <% if list.user == current_user %>
-      <td>
-       <%= link_to record_path(list.id), class:"btn btn-danger text-white", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
-       <i class="fa-regular fa-trash-can"></i>
-       <% end %>
-      </td>
-      <% end %>
-     <%end%>
     <% else %>
-      <td>学習記録がありません</td>
+      <tr>
+        <td colspan="5">学習記録がありません</td>
+      </tr>
     <% end %>
-   </tr>
-   </tboby>
- </table>
+  </tbody>
+</table>
