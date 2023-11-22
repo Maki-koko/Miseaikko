@@ -4,19 +4,19 @@ class User::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @favoite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc)
+    @favorite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc).page(params[:page])
     @following_users = @user.following_users
     @follower_users = @user.follower_users
     if @user == current_user
-      @notes = @user.notes.order(created_at: :desc)
+      @notes = @user.notes.order(created_at: :desc).where(notes: { hidden: true }).page(params[:page])
       @tags = @notes.includes(:tags).pluck('tags.name').flatten.join(',')
       # 一括でタグを取得し、配列にしてjoinする
       # flattenメソッドは多次元配列を平坦化するために使用しています
-      @record = @user.records.order(learning_day: :desc)
+      @record = @user.records.order(learning_day: :desc).where(records: { hidden: true })
     else
-      @notes = @user.notes.share.order(created_at: :desc)
+      @notes = @user.notes.share.order(created_at: :desc).where(notes: { hidden: true,status: true }).page(params[:page])
       @tags = @notes.includes(:tags).pluck('tags.name').flatten.join(',')
-      @record = @user.records.share.order(learning_day: :desc)
+      @record = @user.records.share.order(learning_day: :desc).where(records: { hidden: true,status: true })
     end
   end
 

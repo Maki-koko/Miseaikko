@@ -29,14 +29,7 @@ class ApplicationController < ActionController::Base
   # # ログインしているかによる条件分岐に使用中
 
   def search
-    @q = Note.ransack(params[:q])
-    @note = @q.result(distinct: true)
-    #ここにページネーションなどを入れられる
-    @result = params[:q]&.values&.reject(&:blank?)
-    # params[:q] から空でない値のみを取り出し@result に代入
-    # 取り出す値がない場合→nilを返し、.valuesや.reject(&:blank?) を実行する
   end
-
 
   protected
 
@@ -46,3 +39,18 @@ class ApplicationController < ActionController::Base
   end
 
 end
+
+     
+        
+        #@q = User.ransack(params[:q])
+        #@user = @q.result(distinct: true).page(params[:page])
+        #ここにページネーションなどを入れられる
+       # @result = params[:q]&.values&.reject(&:blank?)
+
+
+        #@q = Note.ransack(params[:q])
+        #@note = @q.result(distinct: true).page(params[:page])
+        #ここにページネーションなどを入れられる
+       # @result = params[:q]&.values&.reject(&:blank?)
+        # params[:q] から空でない値のみを取り出し@result に代入
+        # 取り出す値がない場合→nilを返し、.valuesや.reject(&:blank?) を実行する

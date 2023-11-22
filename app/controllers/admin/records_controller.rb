@@ -1,6 +1,6 @@
 class Admin::RecordsController < ApplicationController
   def index
-    @records = Report.all.where(reports: { reportable_type: 'Record', report_status: false })
+    @records = Report.all.where(reports: { reportable_type: 'Record', report_status: false }).page(params[:page]).per(30)
   end
 
   def show

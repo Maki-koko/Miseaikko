@@ -1,7 +1,14 @@
-<h1>管理者トップ</h1>
-
-<div>未対応の報告件数</div>
-
-<div>ノート:<%= link_to @notes&.count, admin_notes_path %>件</div>
-<div>コメント:<%= link_to @comments&.count, admin_comments_path %>件</div>
-<div>学習記録:<%= link_to @records&.count, admin_records_path %>件</div>
+<div class="container mt-5">
+  <div class="row justify-content-center row-content">
+    <div class="col-md-6">
+      <div class="text-center my-3">
+          <h1 class="border">管理者トップ</h>
+      </div>
+      <div class="text-center">
+        <div class="lead my-5">未対応の報告件数</div>
+        <div class="lead my-4">ノート:<%= link_to @notes&.count, admin_notes_path %>件</div>
+        <div class="lead my-4">コメント:<%= link_to @comments&.count, admin_comments_path %>件</div>
+        <div class="lead my-4">学習記録:<%= link_to @records&.count, admin_records_path %>件</div>
+      </div>
+  </div>
+</div>

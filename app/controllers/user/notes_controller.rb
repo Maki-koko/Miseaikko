@@ -1,7 +1,7 @@
 class User::NotesController < ApplicationController
 
   def index
-    @note = Note.includes(:user).where(users: { is_active: true }).share.order(created_at: :desc)
+    @note = Note.includes(:user).where(users: { is_active: true }).where(notes: { status: true, hidden: true }).share.order(created_at: :desc).page(params[:page]).per(30)
     @tag_list = Tag.all
   end
   

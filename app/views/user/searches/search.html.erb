@@ -1,7 +1,9 @@
-<h2><%= @q.title_cont %>の検索結果</h2>
-<div>
- <%= render 'layouts/search', note:@note %>
-</div>
-<div>
- <%= render 'layouts/note_index', note:@note %>
+<div class="row mt-5 row-content">
+ <h2>" <%= @q.title_cont %> "の検索結果</h2>
+ <div class="col-md-12 d-flex justify-content-end border-bottom">
+  <%= render 'layouts/search', note:@note %>
+ </div>
+ <div class="col-md-12">
+  <%= render 'layouts/note_index', note:@note %>
+ </div>
 </div>

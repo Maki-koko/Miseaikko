@@ -1,11 +1,11 @@
 class Admin::CommentsController < ApplicationController
   def index
-    @comments = Report.all.where(reports: { reportable_type: 'Comment', report_status: false })
+    @comments = Report.all.where(reports: { reportable_type: 'Comment', report_status: false }).page(params[:page]).per(30)
   end
   
   def show
-    @comment = Comment.find(params[:id])
     @report = Report.find(params[:id])
+    @comment = Comment.find(@report.reportable_id)
   end
 
   def update

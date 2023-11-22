@@ -1,33 +1,38 @@
-<div>
-<h2>Miseaikko!はオンライン上で「ノート見せて！」と言い合えるサイトです</h2>
-
-プログラミング学習は孤独になりやすく、調べた情報の整理も大変。</br>
-学生時代にあった、「ノート見せて！」と気軽に言えるような環境があればと思い、立ち上げました。</br>
-ここでは自分の為のノート作りや学習時間の記録だけでなく、みんなのノートを見に行ったり、</br>
-学習者同士でささやかな応援ができます。
-
-みんなとがんばり合いたい人も。</br>
-自分とゆっくり向き合いたい人も。</br>
-<h4>みんなあつまれ！</h4>
-</div>
-
-<div>
-  <table>
-    <thead>
-     <tr>
-       <th>最新のノート</th>
-       <th colspan="2"></th>
-     </tr>
-    </thead>
-    <tboby>
-     <% @note.each do |list| %>
-      <tr>
-        <td><%= list.user.name %></td>
-        <td><%= link_to list.title, note_path(list.id) %></td>
-      </tr>
-     <%end%>
-     </tboby>
-  </table>
-          <%= link_to "他のノートも見に行く＞＞", notes_path, class: "link" %>
-
+<div class="container">
+  <div class="row border my-5 row-content">
+    <div class="mx-auto col-11 col-sm-10 py-3">
+      <h3 class="text-center">Miseaikko!へようこそ！</h3>
+        <div class="text-center my-5">
+          <p>Miseaikko!はオンライン上で「ノート見せて！」と言い合えるサイトです。</br>
+          <p>プログラミング学習は孤独になりやすく、調べた情報の整理も大変。</br>
+          <p>学生時代にあった、「ノート見せて！」と気軽に言えるような環境があればと思い、立ち上げました。</br>
+          <p>ここでは自分の為のノート作りや学習時間の記録だけでなく、みんなのノートを見に行ったり、</br>
+          <p>学習者同士でささやかな応援ができます。</br>
+        </div>
+      <h4 class="text-center">みんなあつまれ！</h4>
+    </div>
+  </div>
+ <div class="row mt-5 border border-5 py-3 row-content">
+    <div class="col-md-8 offset-md-2">
+      <h4 class="text-center border-bottom">最新のノート</h4>
+      <% @note.each do |list| %>
+        <div class="list-group list-group-flush mb-3">
+          <div class="list-group-item border-bottom">
+            <div class="mb-2">
+              <span class="font-weight-bold">
+                作成日：<%= list.created_at.strftime('%Y/%m/%d') %>
+              </span>
+              <%= list.user.name %>
+            </div>
+            <div>
+              <%= link_to list.title, note_path(list.id), class: "ml-2" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="d-flex justify-content-end">
+        <%= link_to "他のノートも見に行く＞＞", notes_path, class: "link" %>
+      </div>
+    </div>
+  </div>
 </div>

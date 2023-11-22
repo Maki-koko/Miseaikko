@@ -1,6 +1,7 @@
 class Admin::ReportsController < ApplicationController
   def index
-    @lists = Report.all.order(created_at: :desc)
+    @lists = Report.all.order(created_at: :desc).page(params[:page]).per(30)
+    @select = "1"
   end
 
   def update

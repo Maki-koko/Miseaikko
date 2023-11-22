@@ -1,16 +1,19 @@
-<h1>不適切な投稿の報告</h1>
-<p>Find me in app/views/user/reports/new.html.erb</p>
-
-<%= render_if @note.present?, 'user/notes/data', note: @note, tags: @tags %>
-<%= render_if @record.present?, 'user/records/show', record: @record %>
-<%= render_if @comment.present?, 'user/comment/show', comment: @comment %>
-<!--`render_if`＝条件式が `true` の場合のみ指定した部分テンプレートをレンダリングする-->
-
-
-<%= form_with model: @report, url: reports_path do |form| %>
-<%= form.text_area :text, rows: '7', placeholder: "報告理由を記載してください", class:"form-control" %>
- <%= form.hidden_field :reportable_type %>
-  <%= form.hidden_field :reportable_id %>
-  
+<div class="row mt-5 row-content">
+ <h2>不適切な投稿の報告</h2>
+<div class="col-md-11 my-2">
+ <%= render_if @note.present?, 'user/notes/data', note: @note, tags: @tags %>
+ <%= render_if @record.present?, 'user/records/show', record: @record %>
+ <%= render_if @comment.present?, 'user/comment/show', comment: @comment %>
+ <!--`render_if`＝条件式が `true` の場合のみ指定した部分テンプレートをレンダリングする-->
+ </div>
+<div class="col-md-11 my-2">
+ <%= form_with model: @report, url: reports_path do |form| %>
+ <%= form.text_area :text, rows: '7', placeholder: "報告理由を記載してください", class:"form-control" %>
+  <%= form.hidden_field :reportable_type %>
+   <%= form.hidden_field :reportable_id %>
+</div>
+<div class="col-md-11 my-2">
   <%= form.submit "不適切な投稿として報告", class:"btn btn-sm btn-warning" %>
 <% end %>
+</div>
+</div>

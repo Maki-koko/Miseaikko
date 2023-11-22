@@ -1,25 +1,33 @@
-<div>
-タイトル：<%= note.title %>
-</div>
+  <div class="col-md-11 my-3">
+    <!-- タイトルとタグ -->
+    <div class="col-md-12 my-3 text-center">
+      <h2><span class="font-weight-bold"><%= note.title %></span></h2>
+    </div>
+    <div class="col-md-12 my-3">
+      <% tags.each do |tag| %>
+        <%= link_to tag.name, search_tag_path(tag_id: tag.id),class: "px-2 py-1 tag-color rounded" %>
+      <% end %>
+    </div>
+    <!-- ユーザー情報 -->
+    <div class="col-md-12 my-3">
+      作成者：<%= link_to note.user.name, user_path(note.user_id), class: "link-color" %>
+    </div>
+  </div>
 
-<div>
-  <% tags.each do |tag| %>
-    #<%= link_to tag.name,search_tag_path(tag_id: tag.id) %>
-  <% end %>
-</div>
+    <!-- 公開設定 -->
+  <div class="col-md-12 my-3">
+    <% if note.user == current_user %>
+      <% if note.status %>
+        <p>公開設定：<strong class="text-success">公開</strong></p>
+      <% else %>
+        <p>公開設定：<strong class="text-secondary">非公開</strong></p>
+      <% end %>
+    <% end %>
+  </div>
 
-<div>
-  <%= link_to note.user.name,user_path(note.user_id) %>
-</div>
-
-<% if note.user == current_user %>
-  <% if note.status %>
-    <p>公開設定：<strong class="text-success">公開</strong></p>
-  <% else %>
-    <p>公開設定：<strong class="text-secondary">非公開</strong></p>    
-  <% end %>
-<% end %>
-
-<div class="text border">
-<%= note.content %>
-</div>
+  <!-- ノートの内容 -->
+  <div class="col-md-12">
+    <div class="text border">
+      <%= note.content %>
+    </div>
+  </div>
