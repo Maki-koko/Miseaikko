@@ -1,0 +1,168 @@
+<div class="row">
+<div class="col-md-7 row-content">
+<!-- Myノート -->
+<div class="my-3 row-content">
+  <div class="d-flex justify-content-around border-top border-bottom">
+    <div class="my-3">
+      <h5>Myノート</h5>
+    </div>
+    <% if user_signed_in? && current_user == user %>
+      <div class="my-3">
+        <%= link_to new_note_path, class: "btn btn-info" do %>
+          <span class="fa-solid fa-plus"></span>
+        <% end %>
+      </div>
+    <% else %>
+    <div></div>
+    <% end %>
+  </div>
+  <% if notes.present? %> 
+    <% notes.each do |list| %>
+      <div class="list-group list-group-flush">
+        <div class="list-group-item border-bottom">
+          <div class="border-bottom">
+            作成日：<%= list.created_at.strftime('%Y/%m/%d') %>
+            <% if list.status %>
+              <strong class="text-success">  公開中</strong>
+            <% else %>
+              <strong class="text-secondary">  非公開</strong>
+            <% end %>
+          </div>
+          <div class="mb-2">
+            作成者：<%= list.user.name %>
+          </div>
+          <div class="m-2">
+            <span><%= link_to list.title, note_path(list.id) %></span>
+          <i class="fa-solid fa-heart favorite-color"></i><%= list.note_favorites.count %>
+          </div>
+          <div>
+            <% list.tags.each do |tag| %>
+              <%= link_to tag.name, search_tag_path(tag_id: tag.id),class: "px-2 py-1 tag-color rounded" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div>ノートがありません</div>
+  <% end %>
+</div>
+<div class="my-3 row-content">
+  <!-- いいねしたノート -->
+  <div class="favorite-note">
+    <div class="border-top border-bottom my-3">
+      <h4 class="my-3">いいねしたノート</h4>
+    </div>
+    <% if favorite.present? %> 
+      <% favorite.each do |list| %>
+        <div class="list-group list-group-flush">
+          <div class="list-group-item border-bottom">
+            <div class="border-bottom">
+              作成日：<%= list.note.created_at.strftime('%Y/%m/%d') %>
+            </div>
+            <div class="mb-2">
+              作成者：<%= list.note.user.name %>
+            </div>
+            <div class="m-2">
+              <%= link_to list.note.title, note_path(list.note.id) %>
+              <i class="fa-solid fa-heart favorite-color"></i><%= list.note.note_favorites.count %>
+            </div>
+            <div>
+              <span>
+                <% list.note.tags.each do |tag| %>
+                  <% if list.note.hidden? && list.note.status? %>
+                    <%= link_to tag.name, search_tag_path(tag_id: tag.id), class: "px-2 py-1 tag-color rounded" %>
+                  <% end %>
+                <% end %>
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div>ノートがありません</div>
+    <% end %>
+  </div>
+</div>
+</div>
+<div class="col-md-5 row-content">
+<div class="row-content">
+  <div class="learning-record-info">
+    <div class="d-flex justify-content-around border-top border-bottom my-3">
+      <div class="my-3">
+        <h4>学習記録</h4>
+      </div>
+      <% if user_signed_in? && current_user == user %>
+        <div>
+          <%= link_to new_record_path, class: "btn btn-info mt-3" do %>
+            <span class="fa-solid fa-plus"></span>
+          <% end %>
+        </div>
+      <% else %>
+        <div></div>
+      <% end %>
+    </div>
+    <% if user == current_user %>
+      <p>公開設定：<%= record.first&.status_japanese || "-" %></p>
+      <%= form_with(url: record_path, method: :patch) do |form| %>
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <%= form.radio_button :status, true %>
+              <%= form.label :status, "公開" %>
+            </div>
+            <div>
+              <%= form.radio_button :status, false %>
+              <%= form.label :status, "非公開" %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <%= form.submit "変更", class: "btn btn-info mt-2" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <% if record.present? %>
+      <% record.each do |list| %>
+        <div class="list-group list-group-flush border">
+          <div class="list-group-item">
+            <div class="border-bottom">
+              <%= list.learning_day.strftime('%Y/%m/%d') %>
+            </div>
+            <div class="mb-2">
+              学習時間：<%= list.study_time %>時間
+            </div>
+            <div class="m-2">
+              <%= list.comment %>
+            </div>
+            <div>
+              <% if user_signed_in? %>
+                <% if list.favorited_by?(current_user) %>
+                  <%= link_to record_record_favorites_path(list.id), method: :delete, class: "link-color" do %>
+                    <i class="fa-solid fa-heart favorite favorite-color"></i><%= list.record_favorites.count %>
+                  <% end %>
+                <% else %>
+                  <%= link_to record_record_favorites_path(list.id), method: :post, class: "link-color" do  %>
+                    <i class="fa-regular fa-heart favorite-color"></i><%= list.record_favorites.count %>
+                  <% end %>
+                <% end %>
+                <%= link_to "報告", new_report_path(record_id: list.id), class: "btn btn-sm btn-warning" %>
+              <% else %>
+                <i class="fa-solid fa-heart favorite-color"></i><%= list.record_favorites.count %>
+              <% end %>
+              <% if list.user == current_user %>
+                <%= link_to record_path(list.id), class: "btn btn-danger text-white", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+                  <i class="fa-regular fa-trash-can"></i>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div>学習記録がありません</div>
+    <% end %>
+  </div>
+</div>
+</div>
+</div>

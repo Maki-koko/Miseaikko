@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   def index
-    @users = User.includes(:notes,:records,:comments).page(params[:page]).per(10)
+    @users = User.includes(:notes, :records, :comments).page(params[:page]).per(30)
   end
 
   def edit
@@ -15,9 +15,10 @@ class Admin::UsersController < ApplicationController
     else
       render :edit
     end
-
   end
   
+  
+
 private
   def user_params
     params.require(:user).permit(:email, :is_active, :remarks)

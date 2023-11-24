@@ -1,0 +1,14 @@
+ <div class="col-md-11 my-2 row-content">
+  <h3 class="text-center">コメント内容</h3>
+   <div class="list-group-item border">
+     <div class="my-3">
+       <strong>コメント日：</strong> <%= comment.created_at.strftime('%Y/%m/%d') %>
+     </div>
+     <div class="my-3">
+       <strong>ユーザー名：</strong> <%= comment.user.name %>
+     </div>
+     <div class="my-3">
+       <strong>コメント：</strong> <%= comment.text %>
+     </div>
+   </div>
+ </div>

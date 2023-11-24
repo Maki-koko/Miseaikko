@@ -57,23 +57,23 @@ Rails.application.routes.draw do
    get "/admin" => "admin/homes#top"  
    
   namespace :admin do
-    get "search" => "searches#search"
+    get "search" => "searches#index"
   end
   
   namespace :admin do
-    resources :records, only: [:index, :show, :edit, :update]
+    resources :records, only: [:index, :show, :update]
   end
 
   namespace :admin do
-    resources :notes, only: [:show, :update]
+    resources :notes, only: [:index, :show, :update]
   end
 
   namespace :admin do
-    resources :comments, only: [:show, :update]
+    resources :comments, only: [:index, :show, :update]
   end
 
   namespace :admin do
-    resources :repots, only: [:index, :show, :edit, :update]
+    resources :reports, only: [:index, :show, :update]
   end
 
   namespace :admin do

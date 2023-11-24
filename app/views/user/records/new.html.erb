@@ -1,17 +1,32 @@
-<h1>学習時間</h1>
-
-<%= form_with(model: @record, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :学習日 %>
-    <%= form.date_field:learning_day %>
+<div class="container mt-5">
+  <div class="row mt-5 row-content">
+    <div>
+      <h2 class="mb-4">学習時間記録</h2>
+    </div>
+    <div class="col-md-11 my-2">
+      <%= render "layouts/errors", obj: @record %>
+    </div>
+    <div class="col-md-11 my-2">
+      <%= form_with(model: @record, local: true) do |form| %>
+        <div class="form-group">
+          <%= form.label :学習日 %>
+          <%= form.date_field :learning_day, class: 'form-control' %>
+        </div>
+    
+        <div class="form-group">
+          <%= form.label :学習時間 %>
+          <%= form.text_field :study_time, class: 'form-control' %>時間
+        </div>
+    
+        <div class="form-group">
+          <%= form.label :コメント %>
+          <%= form.text_area :comment, class: 'form-control' %>
+        </div>
+    
+        <div class="form-group">
+          <%= form.submit :登録, class: 'btn btn-success' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-  <div class="field">
-    <%= form.label :学習時間 %>
-    <%= form.text_field :study_time %>時間
-  </div>
-  <div class="field">
-    <%= form.label :コメント %>
-    <%= form.text_area :comment %>
-    <%= form.submit :登録, class: 'btn btn-success' %>
-  </div>
-<% end %>
+</div>

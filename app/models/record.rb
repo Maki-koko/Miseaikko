@@ -8,7 +8,10 @@ class Record < ApplicationRecord
   has_many :reports, as: :reportable, dependent: :destroy
   # 通報内容を複数持っている
 
- 
+  validates :learning_day, presence: true
+  validates :study_time, presence: true
+  validates :comment, presence: true, length: { maximum: 250 }
+
     # 公開・非公開機能
   scope :share, -> {where(status: true)}
   scope :secret, -> {where(status: false)}

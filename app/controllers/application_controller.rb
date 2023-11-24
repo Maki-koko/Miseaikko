@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, except: [:top,:role,:index, :show], unless: :admin_url
+  before_action :authenticate_user!, except: [:top, :role, :index, :show], unless: :admin_url
   before_action :authenticate_admin!, if: :admin_url 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :search
+  
   def admin_url
   request.fullpath.include?("/admin")
   end
@@ -19,7 +20,6 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     root_path
   end
-  
   # helper_method :logged_in?
   # # ユーザーがログインしているかどうかを判定するためのメソッド
   # def logged_in?
@@ -29,11 +29,9 @@ class ApplicationController < ActionController::Base
 
   def search
     @q = Note.ransack(params[:q])
-    @note = @q.result(distinct: true)
+    @note = @q.result(distinct: true).where(status: true, hidden: true).page(params[:page])
     #ここにページネーションなどを入れられる
     @result = params[:q]&.values&.reject(&:blank?)
-    # params[:q] から空でない値のみを取り出し@result に代入
-    # 取り出す値がない場合→nilを返し、.valuesや.reject(&:blank?) を実行する
   end
 
   protected
@@ -44,3 +42,18 @@ class ApplicationController < ActionController::Base
   end
 
 end
+
+     
+        
+        #@q = User.ransack(params[:q])
+        #@user = @q.result(distinct: true).page(params[:page])
+        #ここにページネーションなどを入れられる
+       # @result = params[:q]&.values&.reject(&:blank?)
+
+
+        #@q = Note.ransack(params[:q])
+        #@note = @q.result(distinct: true).page(params[:page])
+        #ここにページネーションなどを入れられる
+       # @result = params[:q]&.values&.reject(&:blank?)
+        # params[:q] から空でない値のみを取り出し@result に代入
+        # 取り出す値がない場合→nilを返し、.valuesや.reject(&:blank?) を実行する

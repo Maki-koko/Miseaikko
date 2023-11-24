@@ -1,11 +1,28 @@
-<h1>不適切な投稿の報告</h1>
-<p>Find me in app/views/user/reports/new.html.erb</p>
+<div class="row mt-5 row-content">
+ <h2>不適切な投稿の報告</h2>
+<div class="col-md-11 my-2">
+ <% if @note.present? %>
+   <%= render 'user/notes/data', note: @note, tags: @tags %>
+ <% end %>
+ 
+ <% if @record.present? %>
+   <%= render 'user/records/show', record: @record %>
+ <% end %>
+ 
+ <% if @comment.present? %>
+   <%= render 'user/comment/show', comment: @comment %>
+ <% end %>
 
-<%= form_with model: @report, url: reports_path do |form| %>
-  <%= form.hidden_field :reportable_type, value: @report.reportable_type %>
-  <%= form.hidden_field :reportable_id, value: @report.reportable_id %>
-  
-  <%= form.text_area :text, rows: '7', placeholder: "報告理由を記載してください" %>
-  
-  <%= form.submit "不適切な投稿として報告", class:"btn btn-sm btn-warning" %>
+ </div>
+ <div class="col-md-11 my-2">
+ <%= form_with model: @report, url: reports_path, method: :post do |form| %>
+  <div>
+   <%= form.text_area :text, rows: '7', placeholder: "報告理由を記載してください", class:"form-control" %>
+    <%= form.hidden_field :reportable_type %>
+     <%= form.hidden_field :reportable_id %>
+  </div>
+  <div class="col-md-11 my-2">
+    <%= form.submit "不適切な投稿として報告", class:"btn btn-sm btn-warning" %>
+  </div>
 <% end %>
+</div>

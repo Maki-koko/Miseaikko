@@ -19,11 +19,15 @@ class User < ApplicationRecord
   has_many :following_users, through: :followers, source: :followed
   has_many :follower_users, through: :followeds, source: :follower
 
-  GUEST_USER_EMAIL = "guest@example.com"
+  validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
+  validates :introduction, length: { maximum: 250 }
 
   def active_for_authentication?
     super && (is_active == true)
   end
+
+  GUEST_USER_EMAIL = "guest@example.com"
+
 
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|

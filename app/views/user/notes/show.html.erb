@@ -1,88 +1,90 @@
-<h1>ノート</h1>
-
-<div>
-タイトル：<%= @note.title %>
-</div>
-
-<div>
-  <% @tags.each do |tag| %>
-    #<%= link_to tag.name,search_tag_path(tag_id: tag.id) %>
-  <% end %>
-</div>
-
-<div>
-  <%= link_to @note.user.name,user_path(@note.user_id) %>
-</div>
-
-<% if @note.user == current_user %>
-  <% if @note.status %>
-    <p>公開設定：<strong class="text-success">公開</strong></p>
-  <% else %>
-    <p>公開設定：<strong class="text-secondary">非公開</strong></p>    
-  <% end %>
-<% end %>
-
-<div class="text border">
-<%= @note.content %>
-</div>
-
-<div>
-<% if @note.user == current_user %>
-  <%= link_to edit_note_path(@note.id), class:"btn btn-sm btn-success" do %>
-  <i class="fa-regular fa-pen-to-square"> 編集</i>
-  <% end %>|
-  <%= link_to note_path(@note.id), class:"btn btn-sm btn-danger text-light", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
-  <i class="fa-regular fa-trash-can"> 削除</i>
-  <% end %>
-<% end %>
-</div>
-
-<table>
-  <thead>
+<div class="row mt-3 row-content">
+  <h2>ノート詳細</h2>
+  <%= render 'data', note: @note, tags: @tags%>
+  <div class="col-md-11 my-3">
+  <!-- いいねとコメント -->
     <% if user_signed_in? %>
-        <th>
-          <% if @note.favorited_by?(current_user) %>
-            <%= link_to note_note_favorites_path(@note), method: :delete do %>
-              <i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %>
+      <table>
+        <tr>
+          <th>
+            <% if @note.favorited_by?(current_user) %>
+               <%= link_to note_note_favorites_path(@note), method: :delete do %>
+                 <i class="fa-solid fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %></th>
+              <% end %>
+            <% else %>
+               <%= link_to note_note_favorites_path(@note), method: :post do %>
+                 <i class="fa-solid fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %></th>
+              <% end %>
             <% end %>
-          <% else %>
-            <%= link_to note_note_favorites_path(@note), method: :post do %>
-              <i class="fa-regular fa-heart"></i><%= @note.note_favorites.count %>
-            <% end %>
-          <% end %>
-        <th><i class="fa-solid fa-comment"></i> <%= @note.comments.count %></th>
-        </th>
-      <% else %>
-        <th><i class="fa-solid fa-heart"></i><%= @note.note_favorites.count %></th>
-      <th><i class="fa-solid fa-comment"></i> <%= @note.comments.count %></th>
-      <% end %>
-  </thead>
-  <% @note.comments.each do |comment| %>
-  <tbody>
-    <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-    <td><%= comment.user.name %></td>
-    <td></td>
-    <td><%= comment.text %></td>
-    <td><%= link_to "報告", new_report_path, class:"btn btn-sm btn-warning" %></td>
-    <td>
-      <% if comment.user == current_user %>
-        <%= link_to note_comment_path(comment.note, comment), method: :delete, class:"btn btn-sm btn-danger" do %>
-        <i class="fa-regular fa-trash-can"> 削除</i>
-        <% end %>
-      <% end %>
-    </td>
-  </tbody>
-  <% end %>
-</table>
-
-<% if user_signed_in? %>
-  <div>
-    <%= form_with model: [@note, @comment] do |f| %>
-      <%= f.text_area :text, rows: '7', placeholder: "コメント" %>
-      <%= f.submit "送信", class:"btn btn-sm btn-secondary" %>
+          </th>
+          <th class="pl-3"><i class="fa-solid fa-comment"></i><%= @note.comments.count %></th>
+          <th class="pl-3"><%= link_to "報告", new_report_path(note_id: @note.id), class: "btn btn-sm btn-warning" %></th>
+        </tr>
+      </table>
+    <% else %>
+      <table>
+        <tr>
+          <th><i class="fa-solid fa-heart favorite-color"></i><%= @note.note_favorites.count %></th>
+          <th><i class="fa-solid fa-comment"></i><%= @note.comments.count %></th>
+        </tr>
+      </table>
     <% end %>
   </div>
-  <div>
-    <%= link_to "報告", new_report_path, class:"btn btn-sm btn-warning" %>
+  <div class="col-md-11 my-2">
+    <!-- 編集・削除ボタン -->
+    <% if @note.user == current_user %>
+      <%= link_to edit_note_path(@note.id), class: "btn btn-sm btn-success" do %>
+        <i class="fa-regular fa-pen-to-square"></i> 編集
+      <% end %> |
+      <%= link_to note_path(@note.id), class: "btn btn-sm btn-danger text-light", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+        <i class="fa-regular fa-trash-can"></i> 削除
+      <% end %>
+    <% end %>
   </div>
-<% end %>
+
+</div>
+
+<div class="row mt-3 row-content">
+  <div class="col-md-6 my-3 row-content">
+    <div class="list-group list-group-flush mb-3">
+      <span class="text-center border-top font-weight-bold">コメント一覧</span>
+      <% @note.comments.where(hidden: true).joins(:user).where(users: { is_active: true }).each do |comment| %>
+        <div class="list-group-item border">
+          <div class="mb-2">
+            <span class="font-weight-bold">
+              <%= comment.created_at.strftime('%Y/%m/%d') %></br>
+            </span>
+            <span class="font-weight-bold">
+              <%= comment.user.name %>
+            </span>
+          </div>
+          <div class="mb-2">
+            <%= comment.text %>
+          </div>
+          <% if user_signed_in? %>
+            <%= link_to "報告", new_report_path(comment_id: comment.id), class: "btn btn-sm btn-warning" %>
+          <% end %>
+          <% if comment.user == current_user %>
+            ｜<%= link_to note_comment_path(comment.note, comment), method: :delete, class: "btn btn-sm btn-danger" do %>
+              <i class="fa-regular fa-trash-can"></i> 削除
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if @note.comments.where(hidden: true).joins(:user).where(users: { is_active: true }).blank? %>
+        <div class="list-group-item border">コメントはありません</div>
+      <% end %>
+    </div>
+  </div>
+  <% if user_signed_in? %>
+    <div class="col-md-6 my-3 row-content">
+      <%= form_with model: [@note, @comment] do |f| %>
+        <%= f.text_area :text, rows: '7', placeholder: "コメント", class: "form-control" %>
+        <div class="my-3">
+          <%= f.submit "送信", class: "btn btn-sm btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
