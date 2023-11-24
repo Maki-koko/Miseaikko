@@ -1,0 +1,33 @@
+<div class="row mt-5 row-content">
+  <h2>会員一覧</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>会員ID</th>
+        <th>氏名</th>
+        <th>メールアドレス</th>
+        <th>ステータス</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></usertd>
+        <td><%= link_to user.name, edit_admin_user_path(user) %></td>
+        <td><%= user.email %></td>
+        <td>
+          <% if user.is_active %>
+            <p class="text-success"><strong>有効</strong></p>
+          <% else %>
+            <p class="text-secondary"><strong>退会</strong></p>    
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center">
+  <%= paginate @users, theme: 'bootstrap-5' %>
+  </div>
+</div>
+</div>

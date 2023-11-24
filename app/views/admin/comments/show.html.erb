@@ -1,0 +1,40 @@
+<div class="row mt-3 row-content">
+  <div class="col-md-10 offset-1 my-3">
+  <h2>報告内容</h2>
+  <% if @report.report_status %>
+    <h4>対応状況：<strong class="text-success">対応済</strong></h4>
+  <% else %>
+    <h4>対応状況：<strong class="text-danger">未対応</strong></h4>    
+  <% end %>
+</div>
+  <div class="col-md-8 offset-2">
+  <%= render 'user/comment/show', comment:@comment %>
+  </div>
+</div>
+<div class="row mt-3 row-content">
+  <div class="col-md-12 my-3 text-center">
+    <h4 class="font-weight-bold">報告理由</h4>
+  </div>
+  <div class="col-md-8 offset-2 py-3 border">
+    <%= @report.text %>
+  </div>
+  <div class="col-md-6 offset-3 py-3" style="display: flex; justify-content: space-between;">
+    <div class="my-3">
+    <% if @comment.hidden %>
+      <h4>管理状態：<strong class="text-success">公開可</strong></h4>
+    <% else %>
+      <h4>管理状態：<strong class="text-danger">非公開</strong></h4>    
+    <% end %>
+  </div>
+    <%= form_with model: @comment, url: admin_comment_path(@comment), method: :patch do |form| %>
+      <div>
+        <%= form.radio_button :hidden, true %><%= form.label :hidden, "公開可とする" %><br>
+        <%= form.radio_button :hidden, false %><%= form.label :hidden, "非公開にする" %>
+        <%= form.submit "更新する", class: "btn btn-sm btn-warning" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-10 offset-2 py-3">
+    <%= render 'admin/reports/form', record:@comment,report:@report %>
+  </div>
+</div>

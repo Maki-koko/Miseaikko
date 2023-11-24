@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row mt-5 row-content">
+    <div class="col-md-8 offset-md-2 c">
+      <h2 class="text-center">パスワード再設定</h2>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render "user/shared/error_messages", resource: resource %>
+        <div class="field my-3">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
+        <div class="actions my-3">
+          <%= f.submit "パスワードの再設定手順を送信", class: "btn btn-secondary form-control" %>
+        </div>
+      <% end %>
+
+      <%= render "user/shared/links" %>
+
+    </div>
+  </div>
+</div>

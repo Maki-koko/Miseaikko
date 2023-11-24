@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row mt-5 row-content">
+    <div class="col-md-8 offset-md-2 my-3">
+      <h2 class="text-center">アカウント設定</h2>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <div class="my-5">
+        <%= render "user/shared/error_messages", resource: resource %>
+        <div class="form-group my-3">
+          <%= f.label :アカウント名 %><br/>
+          <%= f.text_field :name, autofocus: true, class: "form-control" %>
+        </div>
+        <div class="form-group my-3">
+          <%= f.label :自己紹介 %><br/>
+          <%= f.text_area :introduction, autofocus: true, class: "form-control" %>
+        </div>
+        <div class="field my-1">
+          <%= f.label :Email %><br/>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+        <div class="field my-3">
+          <% if @user.status %>
+            ユーザー情報：<strong class="text-success">  公開中</strong>
+          <% else %>
+            ユーザー情報：<strong class="text-secondary">  非公開</strong>
+          <% end %>
+        </div>
+      </div>
+      <div class="my-3">
+        <div class="my-3">
+          <h5>パスワード変更</h5>
+        </div>
+        <div class="field my-2">
+          <%= f.label :変更後のパスワード %>
+          <% if @minimum_password_length %>
+            (<%= @minimum_password_length %>文字以上)<br/>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+        </div>
+        <div class="field my-1">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+        </div>
+      </div>
+
+        <div class="form-group d-flex justify-content-center my-3">
+          <%= f.submit "変更を保存", class: "btn btn-sm btn-secondary px-5" %>
+        </div>
+      <% end %>
+      <div class="form-group d-flex justify-content-center mt-5">
+        <%= link_to "Miseaikkoから退会", users_quit_path, class: "btn  btn-sm btn-danger px-5" %>
+      </div>
+    </div>
+  </div>
+</div>
