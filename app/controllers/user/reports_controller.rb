@@ -28,12 +28,11 @@ class User::ReportsController < ApplicationController
   def create
     @report = Report.new(report_params)
     @report.user_id = current_user.id
-    if @report.save!
+    if @report.save
       flash[:notice] = "ご報告ありがとうございます。"
       redirect_to user_path(current_user)
     else
-      flash[:alert] = "報告の送信に失敗しました。"
-      render :new
+      redirect_to new_report_path
     end
   end
 

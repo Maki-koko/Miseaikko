@@ -1,6 +1,6 @@
 class Admin::CommentsController < ApplicationController
   def index
-    @comments = Report.all.where(reports: { reportable_type: 'Comment', report_status: false }).page(params[:page]).per(30)
+    @comments = Report.all.where(reports: { reportable_type: 'Comment', report_status: false }).order(created_at: :desc).page(params[:page]).per(30)
   end
   
   def show

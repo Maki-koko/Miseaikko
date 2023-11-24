@@ -1,10 +1,15 @@
 class User::CommentsController < ApplicationController
   def create
-    @note = Note.find(params[:note_id])
-    @comment = current_user.comments.new(comment_params)
-    @comment.note_id = @note.id
-    @comment.save
-    redirect_to note_path(@note.id)
+      @note = Note.find(params[:note_id])
+      @comment = current_user.comments.new(comment_params)
+      @comment.note_id = @note.id
+      flash[:notice] = "コメントしました"
+    if @comment.save
+      redirect_to note_path(@note.id)
+    else
+      flash[:notice] = "空欄でコメントはできません"
+      redirect_to note_path(@note.id)
+    end
   end
 
   def destroy
@@ -14,7 +19,7 @@ class User::CommentsController < ApplicationController
       redirect_to note_path(params[:note_id])
     else
       flash[:notice] = "削除できませんでした"
-      render :show
+      redirect_to note_path(params[:note_id])
     end
   end
 

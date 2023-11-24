@@ -1,16 +1,14 @@
 <% if controller_name != 'sessions' %>
   <% if user_signed_in? %>
     <div class="search_form">
-      <%= search_form_for @q, url: search_path do |f| %>
+      <%= search_form_for @q, url: search_path, class:"row justify-content-end" do |f| %>
       <div>
-        <%= f.search_field :title_cont, class:"rounded" %>
-        <button class="btn btn-outline-dark" type="submit">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+        ノート検索： <%= f.search_field :title_cont, class:"rounded" %>
+        <%= f.submit "検索", class:"rounded" %>
       </div>
       <% end %>
     </div>
-  <% else %>
+  <% elsif admin_signed_in?  %>
     <%= form_with url: admin_search_path, method: :get do |f| %>
       ユーザー：<%= f.text_field :text, value: @value, class:"rounded" %>
       対応状況：<%= f.select :status, options_for_select({すべて: 1, 対応済: true, 未対応: false}, @select) %>

@@ -24,13 +24,15 @@ class User::NotesController < ApplicationController
     end
   end
 
-  def show
+def show
   @note = Note.find(params[:id])
   @user = @note.user
   @tag_list = @note.tags.pluck(:name).join(',')
   @tags = @note.tags
   @comment = Comment.new
-  end
+  # is_activeがtrueであるコメントのみを取得
+  @active_comments = @note.comments.joins(:user).where(users: { is_active: true })
+end
 
   def edit
   @note = Note.find(params[:id])
@@ -62,13 +64,13 @@ class User::NotesController < ApplicationController
   end
 
   def search_tag
-    #検索結果画面でもタグ一覧表示
-    @tag_list = Tag.all
-      #検索されたタグを受け取る
+    # 検索されたタグを受け取る
     @tag = Tag.find(params[:tag_id])
-      #検索されたタグに紐づく投稿を表示
-    @notes = @tag.notes
+    
+    # 検索されたタグに紐づく投稿を表示
+    @note = @tag.notes.joins(:user).where(users: { is_active: true }, notes: { status: true, hidden: true }).share.order(created_at: :desc).page(params[:page]).per(30)
   end
+
   
   private
   

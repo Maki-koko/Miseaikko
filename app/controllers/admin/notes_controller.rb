@@ -1,15 +1,16 @@
 class Admin::NotesController < ApplicationController
   def index
-    @notes = Report.all.where(reports: { reportable_type: 'Note', report_status: false }).page(params[:page]).per(30)
+    @notes = Report.all.where(reports: { reportable_type: 'Note', report_status: false }).order(created_at: :desc).page(params[:page]).per(30)
   end
 
   def show
-    @note = Note.find(params[:id])
     @report = Report.find(params[:id])
+    @note = Note.find(@report.reportable_id)
     @tags = @note.tags
   end
 
   def update
+    @report = Report.find(params[:id])
     @note = Note.find(params[:id])
     if @note.update(note_params)
       flash[:notice] = "更新しました"

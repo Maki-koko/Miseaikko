@@ -1,11 +1,11 @@
 class Admin::RecordsController < ApplicationController
   def index
-    @records = Report.all.where(reports: { reportable_type: 'Record', report_status: false }).page(params[:page]).per(30)
+    @records = Report.all.where(reports: { reportable_type: 'Record', report_status: false }).order(created_at: :desc).page(params[:page]).per(30)
   end
 
   def show
-    @record = Record.find(params[:id])
     @report = Report.find(params[:id])
+    @record = Record.find(@report.reportable_id)
   end
 
   def update

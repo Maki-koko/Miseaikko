@@ -14,7 +14,7 @@
         <% @users.each do |user| %>
           <tr>
             <td><%= link_to user.name, user_path(user) %></td>
-            <td><%= user.introduction %></td>
+            <td><%= truncate(user.introduction, length: 30) %></td>
             <td><%= user.notes.first.created_at.strftime('%Y/%m/%d') %></br>
                 <%= link_to user.notes.first.title, note_path(user.notes.first.id) %>
             </td>

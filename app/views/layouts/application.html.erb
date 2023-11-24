@@ -78,18 +78,16 @@
       </div>
     </nav>
   </header>
-  
   <main class="pb-5">
     <div class="container">
       <div class="d-flex justify-content-center mt-3">
         <% if notice %>
-          <p><%= notice %></p>
+          <p class="row-content mx-1 my-3"><%= notice %></p>
         <% end %>
         <% if alert %>
-          <p><%= alert %></p>
+          <p class="favorite-color mx-1 my-3"><%= alert %></p>
         <% end %>
       </div>
-      
       <%= yield %>
     </div>
   </main>

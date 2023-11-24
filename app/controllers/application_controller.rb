@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, except: [:top,:role,:index, :show], unless: :admin_url
+  before_action :authenticate_user!, except: [:top, :role, :index, :show], unless: :admin_url
   before_action :authenticate_admin!, if: :admin_url 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :search
@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     root_path
   end
-  
   # helper_method :logged_in?
   # # ユーザーがログインしているかどうかを判定するためのメソッド
   # def logged_in?
@@ -29,6 +28,10 @@ class ApplicationController < ActionController::Base
   # # ログインしているかによる条件分岐に使用中
 
   def search
+    @q = Note.ransack(params[:q])
+    @note = @q.result(distinct: true).where(status: true, hidden: true).page(params[:page])
+    #ここにページネーションなどを入れられる
+    @result = params[:q]&.values&.reject(&:blank?)
   end
 
   protected

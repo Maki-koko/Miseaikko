@@ -1,21 +1,25 @@
   <div class="col-md-11 my-3">
-    <!-- タイトルとタグ -->
+    <!-- タイトル -->
     <div class="col-md-12 my-3 text-center">
-      <h2><span class="font-weight-bold"><%= note.title %></span></h2>
+      <h2><span class="border-bottom px-4"><%= note.title %></span></h2>
     </div>
+    <!-- ユーザー情報 -->
     <div class="col-md-12 my-3">
+      <h5>作成者：<%= link_to note.user.name, user_path(note.user_id), class: "link-color" %></h5>
+    </div>
+    <div class="col-md-12">
+      作成日：<%= note.created_at.strftime('%Y/%m/%d') %></br>
+      更新日：<%= note.updated_at.strftime('%Y/%m/%d') %>
+    </div>
+    <!--タグ-->
+    <div class="col-md-12 my-2">
       <% tags.each do |tag| %>
         <%= link_to tag.name, search_tag_path(tag_id: tag.id),class: "px-2 py-1 tag-color rounded" %>
       <% end %>
     </div>
-    <!-- ユーザー情報 -->
-    <div class="col-md-12 my-3">
-      作成者：<%= link_to note.user.name, user_path(note.user_id), class: "link-color" %>
-    </div>
   </div>
-
     <!-- 公開設定 -->
-  <div class="col-md-12 my-3">
+  <div class="col-md-12">
     <% if note.user == current_user %>
       <% if note.status %>
         <p>公開設定：<strong class="text-success">公開</strong></p>
@@ -24,7 +28,6 @@
       <% end %>
     <% end %>
   </div>
-
   <!-- ノートの内容 -->
   <div class="col-md-12">
     <div class="text border">

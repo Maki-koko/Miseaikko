@@ -6,7 +6,6 @@ class Admin::ReportsController < ApplicationController
 
   def update
     @report = Report.find(params[:id])
-    
     if params[:note].present?
       @note = Note.find(params[:id])
       @note.update(note_params)
@@ -14,12 +13,12 @@ class Admin::ReportsController < ApplicationController
     
     if params[:record].present?
       @record = Record.find(params[:id])
-      @record.update(report_params)
+      @record.update(record_params)
     end
     
     if params[:comment].present?
       @comment = Comment.find(params[:id])
-      @comment.update(report_params)
+      @comment.update(comment_params)
     end
     
     if @report.update(report_params)
@@ -27,9 +26,9 @@ class Admin::ReportsController < ApplicationController
       redirect_to admin_reports_path
     else
       flash[:alert] = "更新に失敗しました。"
-      render :show
+      redirect_to admin_reports_path
     end
-  end
+  end 
   
   private
   

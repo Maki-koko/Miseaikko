@@ -16,8 +16,8 @@ class Note < ApplicationRecord
   belongs_to :user
   # ノートが繋がっているモデルはuserのみ
   
-  
-  
+  validates :title, presence: true
+  validates :content, presence: true
   # 公開・非公開機能
   scope :share, -> {where(status: true)}
   scope :secret, -> {where(status: false)}

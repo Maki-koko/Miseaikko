@@ -7,6 +7,10 @@ class Report < ApplicationRecord
   # 関連付けられるようにする設定
   # optional: true→関連づくReportsがなくても保存可にする
 
+  validates :text, presence: true, length: { maximum: 300 }
+  validates :remarks, length: { maximum: 1000 }
+
+
   #enum type: { note: 0, comment: 1, record: 2 }
   scope :search_by_user_name_or_email, ->(query) {
     joins("LEFT JOIN notes ON reports.reportable_id = notes.id AND reports.reportable_type = 'Note'")

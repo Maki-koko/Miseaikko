@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :following_users, through: :followers, source: :followed
   has_many :follower_users, through: :followeds, source: :follower
 
+  validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
+  validates :introduction, length: { maximum: 250 }
 
   def active_for_authentication?
     super && (is_active == true)
