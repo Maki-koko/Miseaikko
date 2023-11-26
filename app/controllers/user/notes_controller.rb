@@ -71,6 +71,11 @@ end
     @note = @tag.notes.joins(:user).where(users: { is_active: true }, notes: { status: true, hidden: true }).share.order(created_at: :desc).page(params[:page]).per(30)
   end
 
+
+  def search
+    #Viewのformで取得したパラメータをモデルに渡す
+    @notes = Note.search(params[:search]).page(params[:page]).per(30)
+  end
   
   private
   
