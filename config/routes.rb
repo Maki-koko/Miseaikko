@@ -15,6 +15,35 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
+
+   get "/admin" => "admin/homes#top"  
+   
+  namespace :admin do
+    get "search" => "searches#index"
+  end
+  
+  namespace :admin do
+    resources :records, only: [:index, :show, :update]
+  end
+
+  namespace :admin do
+    resources :notes, only: [:index, :show, :update]
+  end
+
+  namespace :admin do
+    resources :comments, only: [:index, :show, :update]
+  end
+
+  namespace :admin do
+    resources :reports, only: [:index, :show, :update]
+  end
+
+  namespace :admin do
+    resources :users, only: [:index, :edit, :update]
+  end
+
+
+
   devise_scope :user do
     post "users/guest_sign_in", to: "user/sessions#guest_sign_in"
   end
@@ -52,33 +81,6 @@ Rails.application.routes.draw do
     resources :reports, only: [:new, :create, :show, :edit]
   end
 
-
-  
-   get "/admin" => "admin/homes#top"  
-   
-  namespace :admin do
-    get "search" => "searches#index"
-  end
-  
-  namespace :admin do
-    resources :records, only: [:index, :show, :update]
-  end
-
-  namespace :admin do
-    resources :notes, only: [:index, :show, :update]
-  end
-
-  namespace :admin do
-    resources :comments, only: [:index, :show, :update]
-  end
-
-  namespace :admin do
-    resources :reports, only: [:index, :show, :update]
-  end
-
-  namespace :admin do
-    resources :users, only: [:index, :edit, :update]
-  end
 
 
 end
