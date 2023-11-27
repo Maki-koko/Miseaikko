@@ -3,5 +3,10 @@
     <div class="col-md-12 d-flex justify-content-end border-bottom">
      <%= render 'layouts/search', note:@report %>
     </div>
- <%= render 'admin/reports/list', data:@lists %>
+    <div class="col-md-12 d-flex border-bottom">
+     <%= render 'admin/reports/list', data:@lists %>
+    </div>
+    <div class="col-md-12 d-flex justify-content-center my-3">
+      <%= paginate @lists, theme: 'bootstrap-5' %>　
+    </div>
 </div>

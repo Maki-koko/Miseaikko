@@ -20,13 +20,6 @@
         <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
           <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
         <% end %>
-        <div class="field my-3">
-          <% if @user.status %>
-            ユーザー情報：<strong class="text-success">  公開中</strong>
-          <% else %>
-            ユーザー情報：<strong class="text-secondary">  非公開</strong>
-          <% end %>
-        </div>
       </div>
       <div class="my-3">
         <div class="my-3">

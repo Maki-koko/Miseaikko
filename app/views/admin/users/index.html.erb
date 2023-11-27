@@ -1,5 +1,8 @@
 <div class="row mt-5 row-content">
-  <h2>会員一覧</h2>
+  <div class="mt-4 mx-3">
+    <h2>会員一覧</h2>
+  </div>
+  <div class="col-md-12 border-bottom">
   <table class="table">
     <thead>
       <tr>
@@ -26,8 +29,9 @@
       <% end %>
     </tbody>
   </table>
-  <div class="d-flex justify-content-center">
-  <%= paginate @users, theme: 'bootstrap-5' %>
+</div>
+  <div class="col-md-7 offset-5 tex-center my-3">
+    <%= paginate @users, theme: 'bootstrap-5' %>
   </div>
 </div>
 </div>

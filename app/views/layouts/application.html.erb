@@ -26,6 +26,11 @@
         <a class="navbar-brand" href="<%= current_admin ? admin_path : root_path %>">
           <%= image_tag 'Miseaikko_long.png', size: '200x100' %>
         </a>
+        <% if user_signed_in? %>
+          <div class="nav-item text-light my-auto ml-4">
+            こんにちは、<%= current_user.name %>さん
+          </div>
+        <% end %>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

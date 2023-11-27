@@ -56,6 +56,7 @@ names.each do |name|
 
 user_ids = User.pluck(:id)
 
+
 learning_comments = [
   "本日も一日頑張りました。",
   "新しい技術に挑戦しています。",
@@ -70,6 +71,8 @@ learning_comments = [
   "Web開発に関する知識を深めました。",
 ]
 
+num_records = 15
+
 user_ids.each do |user_id|
   registration_date = User.find(user_id).created_at.to_date
   learning_day = rand(registration_date..Date.today)
@@ -78,7 +81,7 @@ user_ids.each do |user_id|
     user_id: user_id,
     status: [true, false].sample,
     learning_day: learning_day,
-    study_time: rand(1..5),
+    study_time: rand(1..8),
     comment: learning_comments.sample,
     hidden: [true, false].sample,
     report_id: nil,
@@ -221,14 +224,11 @@ num_notes.times do
   # 選択されたトピックに関連するデータを取得
   topic_challenge_goal_tags = topic_data[selected_topic]
 
-  # ユーザーの登録日以降の日付を取得
-  user_created_at = User.all.sample.created_at
-
   # ノートのデータ
   note_data = {
     title: "#{selected_topic}",
     status: [true, false].sample,
-    user_id: User.where("created_at >= ?", user_created_at).sample.id,
+    user_id:  User.all.sample.id,
   }
 
   # ノートを作成
@@ -299,7 +299,7 @@ num_comments.times do
 end
 
 
-num_reports_for_records = 3
+num_reports_for_records = 1
 
 num_reports_for_records.times do
   # ランダムなユーザーを選択

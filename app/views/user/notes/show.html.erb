@@ -13,7 +13,7 @@
               <% end %>
             <% else %>
                <%= link_to note_note_favorites_path(@note), method: :post do %>
-                 <i class="fa-solid fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %></th>
+                 <i class="fa-regular fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %></th>
               <% end %>
             <% end %>
           </th>
