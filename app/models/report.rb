@@ -7,7 +7,7 @@ class Report < ApplicationRecord
   # 関連付けられるようにする設定
   # optional: true→関連づくReportsがなくても保存可にする
 
-  validates :text, presence: true, length: { maximum: 300 }
+  validates :text, presence: true, length: { minimum: 5, maximum: 300 }
   validates :remarks, length: { maximum: 1000 }
 
 

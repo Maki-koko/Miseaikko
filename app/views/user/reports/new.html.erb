@@ -19,7 +19,7 @@
     <div>
       <%= form.hidden_field :reportable_type, value: @report.reportable_type %>
       <%= form.hidden_field :reportable_id, value: @report.reportable_id %>
-      <%= form.text_area :text, rows: '7', class:"form-control", value: "報告理由：" %>
+      <%= form.text_area :text, rows: '7', class:"form-control",required: true %>
     </div>
     <div class="col-md-11 my-2">
     <%= form.submit "不適切な投稿として報告", class: "btn btn-sm btn-warning" %>

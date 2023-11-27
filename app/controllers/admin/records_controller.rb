@@ -10,9 +10,10 @@ class Admin::RecordsController < ApplicationController
 
   def update
     @record = Record.find(params[:id])
-    if @record.update(record_params)
+    @report = Report.find(params[:report_id])
+    if @record.update(hidden: params[:hidden])
       flash[:notice] = "更新しました"
-      redirect_to admin_record_path(@record.id)
+      redirect_to admin_record_path(id: @report.id)
     else
       render :show
     end    
