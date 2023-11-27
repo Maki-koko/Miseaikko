@@ -27,8 +27,8 @@
     <% end %>
     </div>
     <div class="my-4 offset-1">
-      <%= button_to '公開可', admin_comment_path(@comment, report_id: @report.id,hidden: true), method: :patch, class:"btn btn-sm btn-warning" %>
-      <%= button_to '非公開', admin_comment_path(@comment, report_id: @report.id,hidden: false), method: :patch, class:"btn btn-sm btn-warning" %>
+      <%= button_to '公開可', admin_comment_path(@comment,hidden: true, report_id: @report.id), method: :patch, class:"btn btn-sm btn-warning" %>
+      <%= button_to '非公開', admin_comment_path(@comment,hidden: false, report_id: @report.id), method: :patch, class:"btn btn-sm btn-warning" %>
     </div>
   </div>
   <div class="col-md-10 offset-2 py-3">
