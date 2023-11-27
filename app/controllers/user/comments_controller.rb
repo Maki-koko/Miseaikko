@@ -7,7 +7,7 @@ class User::CommentsController < ApplicationController
     if @comment.save
       redirect_to note_path(@note.id)
     else
-      flash[:notice] = "空欄でコメントはできません"
+      flash[:notice] = "コメントを入力してください"
       redirect_to note_path(@note.id)
     end
   end

@@ -1,11 +1,5 @@
 ja:
 
-  enums:
-    report:
-      type:
-        note: "ノート"
-        comment: "コメント"
-        record: "学習記録"
   activerecord:
     errors:
       messages:
@@ -13,6 +7,31 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在している為、削除できません"
           has_many: "%{record}が存在している為、削除できません"
+    attributes:
+        user:
+          email: 'メールアドレス'
+          password: 'パスワード' 
+          name: 'アカウント名'
+          introdution: '自己紹介'
+          is_active: '会員ステータス'
+          remarks: '備考欄'
+          status: '公開設定'
+        comment:
+          text: 'コメント'
+          hidden: '管理状態'
+        note:
+          title: 'タイトル'
+          hidden: '管理状態'
+          status: '公開設定'
+        record:
+          learning_day: '学習日'
+          study_time: '学習時間'
+          comment: 'コメント'
+          hidden: '管理状態'
+          status: '公開設定'
+        tag:
+          name: 'タグ'
+
   date:
     abbr_day_names:
     - 日
