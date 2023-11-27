@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   scope module: :user do
     get 'users/quit' => "users#quit"
     patch 'users/withdraw' => 'users#withdraw'
-    resources :users, only: [:show, :edit, :update] do
+    resources :users, only: [:show, :update] do
       member do
         get :follows, :followers
       end
