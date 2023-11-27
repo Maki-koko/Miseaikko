@@ -28,12 +28,21 @@ class User::ReportsController < ApplicationController
   def create
     @report = Report.new(report_params)
     @report.user_id = current_user.id
+    reportable_id = params[:report][:reportable_id]
     if @report.save
       flash[:notice] = "ご報告ありがとうございます。"
       redirect_to user_path(current_user)
     else
-      flash[:alert] = "データが確認できません。お手数ですが再度お手続きをお願いします。"
-      redirect_to user_path(current_user)
+        flash[:alert] = "コメントを入力してください。"
+      if params[:report][:reportable_type]=="Note"
+        redirect_to new_report_path(note_id: reportable_id)
+      elsif params[:report][:reportable_type]=="Record"
+        redirect_to new_report_path(record_id: reportable_id)
+      elsif params[:report][:reportable_type]=="Comment"
+        redirect_to new_report_path(comment_id: reportable_id)
+      else
+        redirect_to user_path(current_user)
+      end
     end
   end
 

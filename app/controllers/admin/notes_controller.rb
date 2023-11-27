@@ -10,16 +10,16 @@ class Admin::NotesController < ApplicationController
   end
 
   def update
-    @report = Report.find(params[:id])
     @note = Note.find(params[:id])
-    if @note.update(note_params)
+    @report = Report.find(params[:report_id])
+    if @note.update(hidden: params[:hidden])
       flash[:notice] = "更新しました"
-      redirect_to admin_note_path(@note.id)
+      redirect_to admin_note_path(id: @report.id)
     else
       render :show
     end    
   end
-
+  
 
   private
   

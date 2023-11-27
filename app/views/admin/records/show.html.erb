@@ -1,10 +1,12 @@
 <div class="row mt-3 row-content">
   <div class="col-md-10 offset-1 my-3">
     <h2>報告内容</h2>
+    
+
       <% if @report.report_status %>
-        <h4>対応状況：<strong class="text-success">対応済</strong></h4>
+        <h4>報告ID:<%= @report.id %></br>対応状況：<strong class="text-success">対応済</strong></h4>
       <% else %>
-        <h4>対応状況：<strong class="text-danger">未対応</strong></h4>    
+        <h4>報告ID:<%= @report.id %></br>対応状況：<strong class="text-danger">未対応</strong></h4>    
       <% end %>
   </div>
   <div class="col-md-8 offset-2 my-3">
@@ -19,21 +21,18 @@
   <div class="col-md-8 offset-2 py-3 border">
     <%= @report.text %>
   </div>
-  <div class="col-md-6 offset-3 py-3" style="display: flex; justify-content: space-between;">
-    <div class="my-3">
+  <div class="col-md-4 offset-4 py-3 d-flex justify-content-between">
+    <div class="mt-5">
     <% if @record.hidden %>
       <h4>管理状態：<strong class="text-success">公開可</strong></h4>
     <% else %>
       <h4>管理状態：<strong class="text-danger">非公開</strong></h4>    
     <% end %>
-  </div>
-    <%= form_with model: @record, url: admin_record_path(@record), method: :patch do |form| %>
-      <div>
-        <%= form.radio_button :hidden, true %><%= form.label :hidden, "公開可とする" %><br>
-        <%= form.radio_button :hidden, false %><%= form.label :hidden, "非公開にする" %>
-        <%= form.submit "更新する", class: "btn btn-sm btn-warning" %>
-      </div>
-    <% end %>
+    </div>
+    <div class="my-4 offset-1">
+      <%= button_to '公開可', admin_record_path(@record, report_id: @report.id,hidden: true), method: :patch, class:"btn btn-sm btn-warning" %>
+      <%= button_to '非公開', admin_record_path(@record, report_id: @report.id,hidden: false), method: :patch, class:"btn btn-sm btn-warning" %>
+    </div>
   </div>
   <div class="col-md-10 offset-2 py-3">
     <%= render 'admin/reports/form', record:@record,report:@report %>

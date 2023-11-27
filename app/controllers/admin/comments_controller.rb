@@ -10,13 +10,16 @@ class Admin::CommentsController < ApplicationController
 
   def update
     @comment = Comment.find(params[:id])
-    if @comment.update(comment_params)
+    @report = Report.find(params[:report_id])
+    if @comment.update(hidden: params[:hidden])
       flash[:notice] = "更新しました"
-      redirect_to admin_comment_path(@comment.id)
+      redirect_to admin_comment_path(id: @report.id)
     else
       render :show
     end    
   end
+  
+
   
   private
   
