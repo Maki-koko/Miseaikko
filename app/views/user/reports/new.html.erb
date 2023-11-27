@@ -14,15 +14,17 @@
  <% end %>
 
  </div>
- <div class="col-md-11 my-2">
- <%= form_with model: @report, url: reports_path, method: :post do |form| %>
-  <div>
-   <%= form.text_area :text, rows: '7', placeholder: "報告理由を記載してください", class:"form-control" %>
-    <%= form.hidden_field :reportable_type %>
-     <%= form.hidden_field :reportable_id %>
-  </div>
-  <div class="col-md-11 my-2">
-    <%= form.submit "不適切な投稿として報告", class:"btn btn-sm btn-warning" %>
-  </div>
-<% end %>
+<div class="col-md-11 my-2">
+  <%= form_with model: @report, url: reports_path, method: :post do |form| %>
+    <div>
+      <%= form.hidden_field :reportable_type, value: @report.reportable_type %>
+      <%= form.hidden_field :reportable_id, value: @report.reportable_id %>
+      <%= form.text_area :text, rows: '7', class:"form-control", value: "報告理由：" %>
+    </div>
+    <div class="col-md-11 my-2">
+    <%= form.submit "不適切な投稿として報告", class: "btn btn-sm btn-warning" %>
+    </div>
+  <% end %>
 </div>
+</div>
+

@@ -32,7 +32,8 @@ class User::ReportsController < ApplicationController
       flash[:notice] = "ご報告ありがとうございます。"
       redirect_to user_path(current_user)
     else
-      redirect_to new_report_path
+      flash[:alert] = "データが確認できません。お手数ですが再度お手続きをお願いします。"
+      redirect_to user_path(current_user)
     end
   end
 

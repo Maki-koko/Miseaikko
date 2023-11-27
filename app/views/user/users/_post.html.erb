@@ -46,6 +46,9 @@
   <% else %>
     <div>ノートがありません</div>
   <% end %>
+  <div class="d-flex justify-content-center">
+    <%= paginate notes, theme: 'bootstrap-5' %>
+  </div>
 </div>
 <div class="my-3 row-content">
   <!-- いいねしたノート -->
@@ -82,6 +85,9 @@
     <% else %>
       <div>ノートがありません</div>
     <% end %>
+  </div>
+  <div class="d-flex justify-content-center my-2">
+    <%= paginate favorite, theme: 'bootstrap-5' %>
   </div>
 </div>
 </div>
