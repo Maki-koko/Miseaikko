@@ -33,4 +33,22 @@
       max-width: 100% !important;
     }
   }
+
+  
 }
+
+  .trix-toolbar {
+    color :red;
+    .trix-button-row {
+      flex-wrap: wrap;
+      justify-content: start;
+    }
+    .trix-button-group:not(:first-child) {
+      margin-left: 0;
+    }
+    .trix-button-group {
+      margin-right: 1.5vw;
+    }
+  }
+
+  

@@ -17,7 +17,6 @@ class Note < ApplicationRecord
   # ノートが繋がっているモデルはuserのみ
   
   validates :title, presence: true
-  validates :content, presence: true
   # 公開・非公開機能
   scope :share, -> {where(status: true)}
   scope :secret, -> {where(status: false)}
@@ -26,7 +25,13 @@ class Note < ApplicationRecord
     return false if user.nil?
     note_favorites.exists?(user_id: user.id)
   end
+
+def self.search(search)
+  return Note.none unless search.present?
   
+  Note.joins(:user).where(['title LIKE ? AND users.is_active = ? AND notes.status = ? AND notes.hidden = ?', "%#{search}%", true, true, true])
+end
+
   # タグ検索に使うコード
   def save_tags(tags)
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
@@ -48,12 +53,13 @@ class Note < ApplicationRecord
   end
   
   # ransackに使うコード
-  def self.ransackable_attributes(auth_object = nil)
-    ["category", "created_at", "hidden", "id", "status", "title", "updated_at", "user_id"]
-  end
+  # def self.ransackable_attributes(auth_object = nil)
+  #   ["category", "created_at", "hidden", "id", "status", "title", "updated_at", "user_id"]
+  # end
   
-  def self.ransackable_associations(auth_object = nil)
-    ["tags", "user"]
-    # "rich_text_content", "tag_relationships",を除外中
-  end
+  # def self.ransackable_associations(auth_object = nil)
+  #   ["tags", "user"]
+  #   # "rich_text_content", "tag_relationships",を除外中
+  # end
+
 end

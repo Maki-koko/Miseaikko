@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, except: [:top, :role, :index, :show], unless: :admin_url
   before_action :authenticate_admin!, if: :admin_url 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :search
+  # before_action :search
   
   def admin_url
   request.fullpath.include?("/admin")
@@ -27,12 +27,6 @@ class ApplicationController < ActionController::Base
   # end
   # # ログインしているかによる条件分岐に使用中
 
-  def search
-    @q = Note.ransack(params[:q])
-    @note = @q.result(distinct: true).where(status: true, hidden: true).page(params[:page])
-    #ここにページネーションなどを入れられる
-    @result = params[:q]&.values&.reject(&:blank?)
-  end
 
   protected
 

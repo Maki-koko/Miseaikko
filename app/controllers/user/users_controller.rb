@@ -4,15 +4,15 @@ class User::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @favorite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc).page(params[:page])
+    @favorite = NoteFavorite.where(user_id: @user.id).order(created_at: :desc).page(params[:page]).per(10)
     @following_users = @user.following_users.where(is_active: true)
     @follower_users = @user.follower_users.where(is_active: true)
     if @user == current_user
-      @notes = @user.notes.order(created_at: :desc).where(notes: { hidden: true }).page(params[:page])
+      @notes = @user.notes.order(created_at: :desc).where(notes: { hidden: true }).page(params[:page]).per(10)
       @tags = @notes.includes(:tags).pluck('tags.name').flatten.join(',')
       @record = @user.records.order(learning_day: :desc).where(records: { hidden: true })
     else
-      @notes = @user.notes.share.order(created_at: :desc).where(notes: { hidden: true, status: true }).page(params[:page])
+      @notes = @user.notes.share.order(created_at: :desc).where(notes: { hidden: true, status: true }).page(params[:page]).per(10)
       @tags = @notes.includes(:tags).pluck('tags.name').flatten.join(',')
       @record = @user.records.share.order(learning_day: :desc).where(records: { hidden: true, status: true })
     end
