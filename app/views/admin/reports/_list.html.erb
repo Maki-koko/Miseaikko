@@ -6,7 +6,7 @@
         <th>報告ID</th>
         <th>通報されたユーザー</th>
         <th>種別</th>
-        <th>報告者の感情分析</th>
+        <th>報告者の印象</th>
         <th>対応状況</th>
       </tr>
     </thead>
@@ -35,7 +35,7 @@
               <% end %>
             </td>
             <td class="sentiment-score" style="color: <%= color_by_score(list.score) %>;">
-              <%= list.score %>
+              <%= text_by_score(list.score) %>
             </td>
             <td>
               <% if list.report_status %>

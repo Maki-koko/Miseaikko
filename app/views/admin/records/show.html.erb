@@ -6,7 +6,7 @@
     <% else %>
       <h4>報告ID:<%= @report.id %></br>対応状況：<strong class="text-danger">未対応</strong></h4>    
     <% end %>
-    <h4 class="sentiment-score">投稿内容の感情分析スコア：<span style="color: <%= color_by_score(@record.score) %>;"><%= @record.score %></span></h4>
+    <h4 class="sentiment-score">投稿内容の印象：<span style="color: <%= color_by_score(@record.score) %>;"><%= text_by_score(@record.score) %></span></h4>
   </div>
   <div class="col-md-8 offset-2 my-3">
     <%= render 'user/records/show', record:@record %>
