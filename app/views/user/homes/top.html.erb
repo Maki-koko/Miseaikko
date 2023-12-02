@@ -18,16 +18,17 @@
     <div class="col-md-8 offset-md-2">
       <h4 class="text-center border-bottom">最新のノート</h4>
       <% @note.each do |list| %>
-        <div class="list-group list-group-flush mb-3">
+        <div class="list-group list-group-flush">
           <div class="list-group-item border-bottom">
             <div class="mb-2">
               <span class="font-weight-bold">
-                作成日：<%= list.created_at.strftime('%Y/%m/%d') %>
+                <%= list.created_at.strftime('%Y/%m/%d') %>
               </span>
               <%= list.user.name %>
             </div>
             <div>
               <%= link_to list.title, note_path(list.id), class: "ml-2" %>
+              <i class="fa-solid fa-heart favorite-color"></i><%= list.note_favorites.count %>
             </div>
           </div>
         </div>

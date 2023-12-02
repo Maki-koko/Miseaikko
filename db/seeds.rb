@@ -17,7 +17,7 @@ names = [
   "YuiLogic21", "KenjiAlgorithm", "SoraPixel88", "とろろそば", "ねぎ焼き", "ぶたしゃぶ", "わさび", "おでん", "さくらんぼ",
 ]
 
-intros = [
+introductions = [
   "よろしくお願いします。",
   "プログラミングが大好きで、新しい技術に挑戦しています。",
   "日々の学びを共有できたらと思っています。",
@@ -36,11 +36,12 @@ names.each do |name|
     email: "#{name.downcase.gsub(/\s+/, '')}@example.com",
     password: "password123",
     name: name,
-    introduction: intros.sample,
+    introduction: introductions.sample,
     is_active: [true, false].sample,
     created_at: rand(datetime_from..datetime_to),
     status: [true, false].sample,
   }
+# .sample:sampleメソッド、配列の要素をランダムに1つ取得する
 
   user = User.find_or_create_by(email: user_data[:email]) do |u|
     u.attributes = user_data
@@ -53,9 +54,9 @@ names.each do |name|
   end
   
 # 学習時間のseedファイル
-
+  
+  # ユーザーIDの指定
 user_ids = User.pluck(:id)
-
 
 learning_comments = [
   "本日も一日頑張りました。",
@@ -69,9 +70,10 @@ learning_comments = [
   "プログラムの最適化に取り組んでいます。",
   "データ構造とアルゴリズムについて勉強しました。",
   "Web開発に関する知識を深めました。",
+  "今日はエラーが多く発生し、疲れました……",
 ]
 
-num_records = 15
+num_records = 10
 
 user_ids.each do |user_id|
   registration_date = User.find(user_id).created_at.to_date
@@ -87,11 +89,13 @@ user_ids.each do |user_id|
     report_id: nil,
     created_at: learning_day.to_datetime,
     updated_at: learning_day.to_datetime,
+    score: rand(-1.0..1.0)
   }
 
   Record.create!(record_data)
 end
 
+# ノートを作成
 tags_data = [
   { name: 'プログラミング' },
   { name: 'Ruby' },
@@ -99,7 +103,7 @@ tags_data = [
   { name: 'データベース' },
 ]
 
-# Create tags
+# タグを作成
 tags = tags_data.map { |tag_data| Tag.create!(tag_data) }
 
 # Topic data with associated tags
@@ -229,12 +233,14 @@ num_notes.times do
     title: "#{selected_topic}",
     status: [true, false].sample,
     user_id:  User.all.sample.id,
+    score: rand(-1.0..1.0),
+    created_at: user.created_at.to_date,
   }
 
   # ノートを作成
   note = Note.new(note_data)
 
-  # アクションテキストのデータ
+  # アクションテキスト内のデータ
   action_text_data = {
     name: "content",
     body: "内容： #{selected_topic}<br><br>- 学んだこと： #{topic_challenge_goal_tags[:challenge]}<br><br>  - メモ： #{topic_challenge_goal_tags[:goal_memo]}<br><br>- 課題： #{topic_challenge_goal_tags[:assignment]}<br><br>- 次回の目標： #{topic_challenge_goal_tags[:goal]}",
@@ -276,25 +282,38 @@ user_comments = [
   '良い方向に進んでいますね。',
   'がんばりが実ると信じています。',
   '頑張っていますね！',
+  '時間を無駄にした',
+  '読んでも何の得るものがなかった',
 ]
 
 # Create comments
-num_comments = 10
+num_comments = 6
 
 num_comments.times do
   # ランダムなユーザーとノートを選択
   user = User.all.sample
   note = Note.all.sample
 
+  comment_text = user_comments.sample
+
+# 特定のコメントのみhiddenをランダム、残りはtrueに設定
+# （hidden:管理者側で公開・非公開設定するカラム）
+  hidden = if ['時間を無駄にした', '読んでも何の得るものがなかった'].include?(comment_text)
+             [true, false].sample
+           else
+             true
+           end
+
   comment_data = {
     user_id: user.id,
-    text: user_comments.sample,
-    hidden: true,
+    text: comment_text,
+    hidden: hidden,
     note_id: note.id,
     report_id: nil,
+    score: rand(-1.0..1.0)
+    # -1.0~1.0の間でランダムに数値を入れるようにする。
   }
 
-  # コメントを作成
   Comment.create!(comment_data)
 end
 
@@ -302,34 +321,33 @@ end
 num_reports_for_records = 1
 
 num_reports_for_records.times do
-  # ランダムなユーザーを選択
+  
   user = User.all.sample
-
-  # ランダムにノート、レコード、コメントのいずれかを選択
+  
+#   # ランダムにノート、レコード、コメントのいずれかを選択
   reportable_type = %w(Note Record Comment).sample
 
-  # 選択した reportable_type に応じて、対応するモデルからランダムにデータを選択
-  reportable = case reportable_type
-               when 'Note'
-                 Note.all.sample
-               when 'Record'
-                 Record.all.sample
-               when 'Comment'
-                 Comment.all.sample
-               end
+#   # 選択した reportable_type に応じて、対応するモデルからデータを選択
+  if reportable_type == 'Comment'
+    reportable = Comment.where(text: ['時間を無駄にした', '読んでも何の得るものがなかった']).sample
+  elsif reportable_type == 'Note'
+    reportable = Note.all.sample
+  elsif reportable_type == 'Record'
+    reportable = Record.all.sample
+  else
+  end
 
   report_data = {
     user_id: user.id,
     reportable_type: reportable_type,
     reportable_id: reportable.id,
     text: "不適切な内容です。",
-    report_status: [true, false].sample, # trueかfalseのランダムな値
+    report_status: [true, false].sample,
+    score: rand(-1.0..1.0)
   }
-
-  # 通報を作成
+   # 通報を作成
   Report.create!(report_data)
 end
-
 end
 # ここでユーザーモデルデータの作成が完了する
 # こうしないと、以降のお気に入り登録で被りが出たときにエラー扱いとなってしまう

@@ -9,6 +9,8 @@ class Report < ApplicationRecord
 
   validates :text, presence: true, length: { minimum: 5, maximum: 300 }
   validates :remarks, length: { maximum: 1000 }
+  validates :score, presence: true
+
 
 
   #enum type: { note: 0, comment: 1, record: 2 }

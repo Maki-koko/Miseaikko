@@ -11,6 +11,8 @@ class Record < ApplicationRecord
   validates :learning_day, presence: true
   validates :study_time, presence: true
   validates :comment, presence: true, length: { maximum: 250 }
+  validates :score, presence: true
+
 
     # 公開・非公開機能
   scope :share, -> {where(status: true)}

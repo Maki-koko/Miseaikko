@@ -5,15 +5,13 @@
         <div class="list-group-item border-bottom">
           <div class="mb-2">
             <span class="font-weight-bold">
-              作成日：<%= list.created_at.strftime('%Y/%m/%d') %>
+              <%= list.created_at.strftime('%Y/%m/%d') %>
             </span>
+            <%= list.user.name %>
           </div>
           <div>
-            作成者：<%= list.user.name %>
-          </div>
-          <div class="mb-2">
             <%= link_to list.title, note_path(list.id), class: "ml-2" %>
-          <i class="fa-solid fa-heart favorite-color"></i><%= list.note_favorites.count %>
+            <i class="fa-solid fa-heart favorite-color"></i><%= list.note_favorites.count %>
           </div>
         </div>
       </div>

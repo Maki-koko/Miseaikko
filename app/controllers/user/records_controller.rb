@@ -6,6 +6,7 @@ class User::RecordsController < ApplicationController
   def create
     @record = Record.new(record_params)
     @record.user_id = current_user.id
+    @record.score = Language.get_data(record_params[:comment])
     # 他のデータのstatusがtrueだったらtrueに設定
     other_record = Record.where(user_id: current_user.id).last
     @record.status = other_record&.status if other_record

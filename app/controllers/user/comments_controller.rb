@@ -3,6 +3,7 @@ class User::CommentsController < ApplicationController
       @note = Note.find(params[:note_id])
       @comment = current_user.comments.new(comment_params)
       @comment.note_id = @note.id
+      @comment.score = Language.get_data(comment_params[:text])
       flash[:notice] = "コメントしました"
     if @comment.save
       redirect_to note_path(@note.id)
