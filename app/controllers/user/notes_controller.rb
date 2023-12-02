@@ -14,6 +14,7 @@ class User::NotesController < ApplicationController
     @note = current_user.notes.new(note_params)
       tags = params[:note][:name].split(',') # [:tag_id]を取得、splitで,を区切りに設定
     @note.user_id = current_user.id
+    @note.score = Language.get_data(note_params[:content])
     if @note.save
       @note.save_tags(tags)
       flash[:notice] = "ノートを保存しました"
@@ -42,6 +43,7 @@ end
   def update
     @note = Note.find(params[:id])
     @tags = params[:note][:name].split(',')
+    @note.score = Language.get_data(note_params[:content])
     if @note.update(note_params)
       @note.save_tags(@tags)
       flash[:notice] = "ノートを保存しました"

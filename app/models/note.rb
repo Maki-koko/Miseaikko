@@ -17,6 +17,11 @@ class Note < ApplicationRecord
   # ノートが繋がっているモデルはuserのみ
   
   validates :title, presence: true
+  validates :score, presence: true
+
+
+
+
   # 公開・非公開機能
   scope :share, -> {where(status: true)}
   scope :secret, -> {where(status: false)}
@@ -52,7 +57,7 @@ end
     end
   end
   
-  # ransackに使うコード
+  # ransackに使うコード➞ransack使用中止
   # def self.ransackable_attributes(auth_object = nil)
   #   ["category", "created_at", "hidden", "id", "status", "title", "updated_at", "user_id"]
   # end
