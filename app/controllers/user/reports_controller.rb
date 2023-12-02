@@ -8,13 +8,11 @@ class User::ReportsController < ApplicationController
       @tags = @note.tags
       @report.reportable_type = "Note"
       @report.reportable_id = @note.id
-
     elsif params[:record_id].present?
       @record = Record.find(params[:record_id])
       @note = ""
       @report.reportable_type = "Record"
       @report.reportable_id = @record.id
-
     elsif params[:comment_id].present?
       @comment = Comment.find(params[:comment_id])
       @note = ""
@@ -28,6 +26,7 @@ class User::ReportsController < ApplicationController
   def create
     @report = Report.new(report_params)
     @report.user_id = current_user.id
+    @report.score = Language.get_data(report_params[:text])
     reportable_id = params[:report][:reportable_id]
     if @report.save
       flash[:notice] = "ご報告ありがとうございます。"

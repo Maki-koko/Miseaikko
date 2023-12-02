@@ -9,5 +9,5 @@ class Comment < ApplicationRecord
   validates :user_id, presence: true
   validates :text, presence: true, length: { in: 1..500 }
   validates :note_id, presence: true
-
+  validates :score, presence: true
 end
