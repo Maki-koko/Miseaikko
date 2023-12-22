@@ -1,5 +1,5 @@
 <div class="row mt-5 row-content">
-  <h2>フォロー中</h2>
+  <h2><%= @user.name %>さんのフォローリスト</h2>
   <table class="table border-bottom">
     <thead>
       <tr>
@@ -10,8 +10,8 @@
       </tr>
     </thead>
     <tbody>
-      <% if @users.present? %> 
-        <% @users.each do |user| %>
+      <% if @follows.present? %> 
+        <% @follows.each do |user| %>
           <tr>
             <td><%= link_to user.name, user_path(user) %></td>
             <td><%= truncate(user.introduction, length: 30) %></td>

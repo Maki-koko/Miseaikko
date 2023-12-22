@@ -1,4 +1,6 @@
 class User::NotesController < ApplicationController
+  before_action :login_user, only: [:show, :edit, :update, :destroy]
+  before_action :note_hidden, only: [:show, :edit, :update, :destroy]
 
   def index
     @note = Note.includes(:user).where(users: { is_active: true }).where(notes: { status: true, hidden: true }).share.order(created_at: :desc).page(params[:page]).per(30)
@@ -83,6 +85,22 @@ end
   
   def note_params
     params.require(:note).permit(:user_id, :title, :content, :status)
+  end
+  
+  def login_user
+    note = Note.find(params[:id])
+    unless note.user_id == current_user.id
+      redirect_to notes_path
+    end
+  end
+  
+  def note_hidden
+      note = Note.find(params[:id])
+    if note.status == false && note.user_id != current_user.id
+      redirect_to notes_path
+    elsif note.hidden == false
+      redirect_to notes_path
+    end
   end
   
 end

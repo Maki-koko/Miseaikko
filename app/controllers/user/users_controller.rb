@@ -45,13 +45,13 @@ class User::UsersController < ApplicationController
   end
   
   def follows
-    user = User.find(params[:id])
-    @users = user.following_users.where(is_active: true)
+    @user = User.find(params[:id])
+    @followx = @user.following_users.where(is_active: true)
   end
 
   def followers
-    user = User.find(params[:id])
-    @user = user.follower_users.where(is_active: true)
+    @user = User.find(params[:id])
+    @followers = @user.follower_users.where(is_active: true)
   end
   
 

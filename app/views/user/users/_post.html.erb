@@ -112,11 +112,11 @@
           <div class="col-md-6">
             <div>
               <%= form.radio_button :status, true %>
-              <%= form.label :status, "公開" %>
+              <%= form.label :status, "公開",value: true %>
             </div>
             <div>
               <%= form.radio_button :status, false %>
-              <%= form.label :status, "非公開" %>
+              <%= form.label :status, "非公開",value: false %>
             </div>
           </div>
           <div class="col-md-6">

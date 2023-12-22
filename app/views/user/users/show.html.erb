@@ -12,15 +12,15 @@
             <% if current_user == @user %>
             <td class=" my-3">
               <% if @user.status %>
-                ユーザー情報：<strong class="text-success">公開中</strong></br>
+                ユーザー情報：<strong class="text-success">公開中</strong><br>
               <% else %>
-                ユーザー情報：<strong class="text-secondary">非公開</strong></br>
+                ユーザー情報：<strong class="text-secondary">非公開</strong><br>
               <% end %>
               <%= form_with(model: @user, url: user_path(@user), method: :patch) do |form| %>
                 <%= form.radio_button :status, true %>
-                <%= form.label :status, "公開" %><br>
+                <%= form.label :status, "公開",value: true %><br>
                 <%= form.radio_button :status, false %>
-                <%= form.label :status, "非公開" %>
+                <%= form.label :status, "非公開",value: false %>
                 <%= form.submit "変更", class: "btn btn-info" %>
               <% end %>
             </td>
