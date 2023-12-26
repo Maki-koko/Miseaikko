@@ -11,8 +11,8 @@
       <p class="text">管理者対応状況</p>
     </div>
     <div class="col-md-4 offset-3">
-      <%= form.radio_button :report_status, true %><%= form.label :report_status, "対応済" %></br>
-      <%= form.radio_button :report_status, false %><%= form.label :report_status, "未対応" %>
+      <%= form.radio_button :report_status, true %><%= form.label :report_status, "対応済",value: true %><br>
+      <%= form.radio_button :report_status, false %><%= form.label :report_status, "未対応",value: false %>
     </div>
     <div class="col-md-2 my-2">
       <%= form.submit "変更する", class:"btn btn-sm btn-warning" %>
