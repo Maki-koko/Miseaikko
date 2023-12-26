@@ -15,12 +15,12 @@
       </div>
       <div class="form-check">
         <%= form.radio_button :status, true, class: 'form-check-input' %>
-        <%= form.label :status, "公開", class: 'form-check-label' %> (すべての人が閲覧できます)
+        <%= form.label :status, "公開",value: true, class: 'form-check-label' %> (すべての人が閲覧できます)
       </div>
     
       <div class="form-check">
         <%= form.radio_button :status, false, class: 'form-check-input' %>
-        <%= form.label :status, "非公開", class: 'form-check-label' %> (自分のみ閲覧できます)
+        <%= form.label :status, "非公開",value: false, class: 'form-check-label' %> (自分のみ閲覧できます)
       </div>
     </div>
 

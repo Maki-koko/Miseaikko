@@ -65,7 +65,7 @@
             <%= link_to "報告", new_report_path(comment_id: comment.id), class: "btn btn-sm btn-warning" %>
           <% end %>
           <% if comment.user == current_user %>
-            ｜<%= link_to note_comment_path(comment.note, comment), method: :delete, class: "btn btn-sm btn-danger" do %>
+            ｜<%= link_to note_comment_path(comment.note, comment), method: :delete, class: "btn btn-sm btn-danger", "data-confirm" => "本当に削除しますか？" do %>
               <i class="fa-regular fa-trash-can"></i> 削除
             <% end %>
           <% end %>
