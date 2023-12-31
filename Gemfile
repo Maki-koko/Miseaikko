@@ -69,8 +69,6 @@ gem 'ransack'
 gem "enum_help"
 
 gem 'dotenv-rails'
-
-gem 'dotenv-rails'
 group :production do
   gem 'mysql2'
 end
