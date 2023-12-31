@@ -29,7 +29,8 @@
 
 ​
 ## 設計書
-後ほど作成予定
+  ### テーブル定義書
+  https://docs.google.com/spreadsheets/d/1PGaItnwg-D5MX3ZQ7NTjyvB0yqMM1v0SvlqmavwAvgM/edit?usp=sharing
 ​
 ## 開発環境
 - OS：Linux(CentOS)
@@ -38,5 +39,3 @@
 - JSライブラリ：jQuery
 - IDE：Cloud9
 ​
-## 使用素材
-現時点で未定
