@@ -27,10 +27,12 @@
 - 他の人のノートを参考にしたい時
 - 同じ内容を学習している人の様子を見て、学習へのモチベーションを上げたい時
 
-​
 ## 設計書
   ### テーブル定義書
   https://docs.google.com/spreadsheets/d/1PGaItnwg-D5MX3ZQ7NTjyvB0yqMM1v0SvlqmavwAvgM/edit?usp=sharing
+  ### ER図
+  https://drive.google.com/file/d/1Jr-99Ulop1lGqNTqvFTrU86NCM82mHNI/view?usp=sharing
+  
 ​
 ## 開発環境
 - OS：Linux(CentOS)
