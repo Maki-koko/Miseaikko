@@ -6,7 +6,7 @@
         <th>報告ID</th>
         <th>通報されたユーザー</th>
         <th>種別</th>
-        <th>報告者の印象</th>
+        <th>報告者からの印象</th>
         <th>対応状況</th>
       </tr>
     </thead>
@@ -34,7 +34,8 @@
                   <%= '学習記録' %>
               <% end %>
             </td>
-            <td class="sentiment-score" style="color: <%= color_by_score(list.score) %>;">
+            <!--app/helpers/application_helper.rbにscoreの条件分岐設定を記述-->
+            <td class="score" style="color: <%= color_by_score(list.score) %>;">
               <%= text_by_score(list.score) %>
             </td>
             <td>

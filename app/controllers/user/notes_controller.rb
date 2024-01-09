@@ -33,8 +33,8 @@ def show
   @tag_list = @note.tags.pluck(:name).join(',')
   @tags = @note.tags
   @comment = Comment.new
-  # is_activeがtrueであるコメントのみを取得
-  @active_comments = @note.comments.joins(:user).where(users: { is_active: true })
+  # is_activeとhiddenがtrueであるコメントのみを取得
+  @active_comments = @note.comments.where(comments: { hidden: true }).joins(:user).where(users: { is_active: true })
 end
 
   def edit
