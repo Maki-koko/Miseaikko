@@ -6,18 +6,20 @@
   <!-- いいねとコメント -->
     <% if user_signed_in? %>
       <table>
+      <tr>
         <th>
           <% if @note.favorited_by?(current_user) %>
             <%= link_to note_note_favorites_path(@note), method: :delete do %>
                <i class="fa-solid fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %>
             <% end %>
-          <% elsse %>
+          <% else %>
              <%= link_to note_note_favorites_path(@note), method: :post do %>
                <i class="fa-regular fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %>
             <% end %>
           <% end %>
         </th>
         <th class="pl-3"><%= link_to "報告", new_report_path(note_id: @note.id), class: "btn btn-sm btn-warning" %></th>
+      </tr>
       </table>
     <% else %>
       <table>
