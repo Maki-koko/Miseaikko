@@ -6,6 +6,7 @@ module ApplicationHelper
     end
   end
 
+# 数値の結果で表示する色を変える
   def color_by_score(score)
     if score >= 0.25 && score <= 1.0
       "#008000" #緑　良い
@@ -18,7 +19,7 @@ module ApplicationHelper
     end
   end
 
-# text_by_score　数値の結果で表示する文字を変える
+# 数値の結果で表示する文字を変える
   def text_by_score(score)
     if score >= 0.25 && score <= 1.0
       "良い" #良い

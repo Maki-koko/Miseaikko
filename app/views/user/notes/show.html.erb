@@ -1,32 +1,27 @@
 <div class="row mt-3 row-content">
   <h2>ノート詳細</h2>
-  <%= render 'data', note: @note, tags: @tags%>
+  <!--ノート詳細-->
+    <%= render 'data', note: @note, tags: @tags%>
   <div class="col-md-11 my-3">
   <!-- いいねとコメント -->
     <% if user_signed_in? %>
       <table>
-        <tr>
-          <th>
-            <% if @note.favorited_by?(current_user) %>
-               <%= link_to note_note_favorites_path(@note), method: :delete do %>
-                 <i class="fa-solid fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %></th>
-              <% end %>
-            <% else %>
-               <%= link_to note_note_favorites_path(@note), method: :post do %>
-                 <i class="fa-regular fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %></th>
-              <% end %>
+        <th>
+          <% if @note.favorited_by?(current_user) %>
+            <%= link_to note_note_favorites_path(@note), method: :delete do %>
+               <i class="fa-solid fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %>
             <% end %>
-          </th>
-          <th class="pl-3"><i class="fa-solid fa-comment"></i><%= @note.comments.count %></th>
-          <th class="pl-3"><%= link_to "報告", new_report_path(note_id: @note.id), class: "btn btn-sm btn-warning" %></th>
-        </tr>
+          <% elsse %>
+             <%= link_to note_note_favorites_path(@note), method: :post do %>
+               <i class="fa-regular fa-heart favorite-color link-color"></i><%= @note.note_favorites.count %>
+            <% end %>
+          <% end %>
+        </th>
+        <th class="pl-3"><%= link_to "報告", new_report_path(note_id: @note.id), class: "btn btn-sm btn-warning" %></th>
       </table>
     <% else %>
       <table>
-        <tr>
           <th><i class="fa-solid fa-heart favorite-color"></i><%= @note.note_favorites.count %></th>
-          <th><i class="fa-solid fa-comment"></i><%= @note.comments.count %></th>
-        </tr>
       </table>
     <% end %>
   </div>
@@ -47,8 +42,8 @@
 <div class="row mt-3 row-content">
   <div class="col-md-6 my-3 row-content">
     <div class="list-group list-group-flush mb-3">
-      <span class="text-center border-top font-weight-bold">コメント一覧</span>
-      <% @note.comments.where(hidden: true).joins(:user).where(users: { is_active: true }).each do |comment| %>
+      <span class="text-center border-top font-weight-bold">コメント： <%= @active_comments.count %> 件</span>
+      <% @active_comments.each do |comment| %>
         <div class="list-group-item border">
           <div class="mb-2">
             <span class="font-weight-bold">

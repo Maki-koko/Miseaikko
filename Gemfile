@@ -64,8 +64,6 @@ gem 'bootstrap5-kaminari-views', '~> 0.0.1'
 gem 'actiontext'
 gem 'image_processing', '~> 1.2'
 
-gem 'ransack'
-
 gem "enum_help"
 
 gem 'dotenv-rails'
