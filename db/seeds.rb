@@ -5,8 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Admin.find_or_create_by(email: 'admin@admin.com') do |u|
-  u.password = 'adominpasuwa-do'
+Admin.find_or_create_by(email: 'admin@admin.com') do |admin|
+  admin.password = 'adominpasuwa-do'
   end
 
 # アカウント作成
@@ -222,10 +222,10 @@ topic_data = {
 num_notes = 5
 
 num_notes.times do
-  # ランダムなトピックを選択
+  # ランダムなトピック(タイトル名)を選択
   selected_topic = topic_data.keys.sample
 
-  # 選択されたトピックに関連するデータを取得
+  # 選択されたトピックのデータを取得
   topic_challenge_goal_tags = topic_data[selected_topic]
 
   # ノートのデータ
@@ -237,10 +237,11 @@ num_notes.times do
     created_at: user.created_at.to_date,
   }
 
-  # ノートを作成
+  # ノートを作成する
   note = Note.new(note_data)
 
-  # アクションテキスト内のデータ
+  # アクションテキスト内のデータを作成
+  # topic_challenge_goal_tags内の値を代入
   action_text_data = {
     name: "content",
     body: "内容： #{selected_topic}<br><br>- 学んだこと： #{topic_challenge_goal_tags[:challenge]}<br><br>  - メモ： #{topic_challenge_goal_tags[:goal_memo]}<br><br>- 課題： #{topic_challenge_goal_tags[:assignment]}<br><br>- 次回の目標： #{topic_challenge_goal_tags[:goal]}",
@@ -263,7 +264,7 @@ end
 
 
 
-# db/seeds.rb or any other seed file
+#コメントデータを作成
 
 user_comments = [
   '勉強になります。',
@@ -286,7 +287,7 @@ user_comments = [
   '読んでも何の得るものがなかった',
 ]
 
-# Create comments
+# 1アカウントあたりのコメント数
 num_comments = 6
 
 num_comments.times do
@@ -318,14 +319,15 @@ num_comments.times do
 end
 
 
+# 通報データ作成
+
 num_reports_for_records = 1
 
 num_reports_for_records.times do
-  
   user = User.all.sample
   
 #   # ランダムにノート、レコード、コメントのいずれかを選択
-  reportable_type = %w(Note Record Comment).sample
+  reportable_type = ["Note","Record","Comment"].sample
 
 #   # 選択した reportable_type に応じて、対応するモデルからデータを選択
   if reportable_type == 'Comment'
