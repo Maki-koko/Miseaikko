@@ -26,7 +26,9 @@ module Language
       # APIのレスポンスを出力
       response_body = JSON.parse(response.body)  #レスポンスの中身をJSON形式からパースして得られたデータが格納
       if (error = response_body['error']).present?
-        raise error['message']
+        # 分析結果がエラーの際は"-"を返す→"-"がscoreカラムに入る
+        "-"
+        # raise error['message']
       else
         response_body['documentSentiment']['score']
       end  

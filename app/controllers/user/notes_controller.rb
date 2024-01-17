@@ -17,7 +17,8 @@ class User::NotesController < ApplicationController
       tags = params[:note][:name].split(',') # [:tag_id]を取得、splitで,を区切りに設定
     @note.user_id = current_user.id
     @note.score = Language.get_data(note_params[:content])
-    if @note.save
+    # @note.saveでデータを保存し、その結果に基づいてif文の条件分岐を行う
+    if @note.save  
       @note.save_tags(tags)
       flash[:notice] = "ノートを保存しました"
       redirect_to note_path(@note.id)
