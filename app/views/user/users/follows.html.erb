@@ -10,23 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <% if @follows.present? %> 
-        <% @follows.each do |user| %>
-          <tr>
-            <td><%= link_to user.name, user_path(user) %></td>
-            <td><%= truncate(user.introduction, length: 30) %></td>
-            <% if user.notes.present? %>
-              <td><%= user.notes.first.created_at.strftime('%Y/%m/%d') %></br>
-                  <%= link_to user.notes.first.title, note_path(user.notes.first.id) %>
-              </td>
-            <% else %>
-              <td>最新のノートはありません</td>
-            <% end %>
-          </tr>
-        <% end %>
-      <% else %>
-       <td>まだフォローをしていません。</td>
-      <% end %>
+      <%= render "user/users/follow_users", follows: @follows %>
     </tbody>
   </table>
 </div>
