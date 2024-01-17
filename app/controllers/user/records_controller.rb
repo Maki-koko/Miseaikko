@@ -34,7 +34,7 @@ class User::RecordsController < ApplicationController
     @user = current_user
     @record = Record.find(params[:id])
     if @record.destroy
-    flash[:notice] = "学習削除しました"
+    flash[:notice] = "学習記録を削除しました"
     redirect_to user_path(@user.id)
     else
     flash[:notice] = "削除できませんでした"

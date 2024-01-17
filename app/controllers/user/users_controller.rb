@@ -46,7 +46,7 @@ class User::UsersController < ApplicationController
   
   def follows
     @user = User.find(params[:id])
-    @followx = @user.following_users.where(is_active: true)
+    @follows = @user.following_users.where(is_active: true)
   end
 
   def followers
