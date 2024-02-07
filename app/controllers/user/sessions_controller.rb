@@ -41,7 +41,7 @@ protected
     if @user
     # 取得したアカウントのパスワードと入力されたパスワードが一致してるかを判別
       if @user.valid_password?(params[:user][:password]) && !@user.is_active
-      #一致してるかつ退会してたら（!〇〇.is_active=有効状態の反転）
+      #一致してるかつ退会してたら（!〇〇.is_active=Userはis_activeがtrueではないか確認）
         flash[:notice] = "退会済みです。再度ご登録をお願い致します。"
         redirect_to new_user_registration_path
       else

@@ -17,9 +17,6 @@ class User::UsersController < ApplicationController
       @record = @user.records.share.order(learning_day: :desc).where(records: { hidden: true, status: true })
     end
   end
-  # def edit
-  #   @user = User.find(params[:id])
-  # end
 
   def update
     @user = User.find(params[:id])
@@ -37,13 +34,15 @@ class User::UsersController < ApplicationController
   
   def withdraw
     @user = User.find(current_user.id)
-    # is_deletedカラムをtrueに変更することにより削除フラグを立てる
+    # is_activeカラムをfalseに変更(論理削除)
     @user.update(is_active: false)
     reset_session
     flash[:notice] = "退会しました"
     redirect_to root_path
   end
   
+  # フォロワー関連は退会していない人のみ表示
+  # 管理者よりBANされた人は退会設定になる為この記述でもOK
   def follows
     @user = User.find(params[:id])
     @follows = @user.following_users.where(is_active: true)

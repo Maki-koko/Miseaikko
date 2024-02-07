@@ -16,6 +16,7 @@
     <div></div>
     <% end %>
   </div>
+    <!--作成済みのノートはあるか？-->
   <% if notes.present? %> 
     <% notes.each do |list| %>
       <div class="list-group list-group-flush">
@@ -107,6 +108,7 @@
     </div>
     <% if user == current_user %>
       <p>公開設定：<%= record.first&.status_japanese || "-" %></p>
+      <!--recordモデルにstatus_japaneseメゾッド定義済み-->
       <%= form_with(url: record_path, method: :patch) do |form| %>
         <div class="row">
           <div class="col-md-6">
@@ -153,6 +155,7 @@
               <% else %>
                 <i class="fa-solid fa-heart favorite-color"></i><%= list.record_favorites.count %>
               <% end %>
+              
               <% if list.user == current_user %>
                 <%= link_to record_path(list.id), class: "btn btn-danger text-white", method: :delete, "data-confirm" => "本当に削除しますか？" do %>
                   <i class="fa-regular fa-trash-can"></i>
